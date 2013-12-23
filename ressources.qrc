@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/">
+        <file>files/images/textures/cloud.png</file>
+        <file>files/images/textures/spawn.jpg</file>
+        <file>files/images/skins/skin1.png</file>
+        <file>files/images/skins/skin2.png</file>
+        <file>files/images/skins/skin3.png</file>
+        <file>files/images/skins/skin4.png</file>
+        <file>files/images/textures/brick.png</file>
+        <file>files/images/textures/dirt.png</file>
+        <file>files/images/textures/grass.png</file>
+        <file>files/maps/map1.map</file>
+        <file>files/sounds/walk.wav</file>
+        <file>files/sounds/test.wav</file>
+        <file>files/images/textures/lava.gif</file>
+        <file>files/images/textures/end.gif</file>
+        <file>files/images/textures/background.png</file>
+        <file>files/images/background.png</file>
+        <file>files/images/skins/skin1-walkLeft.gif</file>
+        <file>files/images/skins/skin1-walkRight.gif</file>
+    </qresource>
+</RCC>
