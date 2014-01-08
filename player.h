@@ -1,15 +1,17 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include <QObject>
 #include <QString>
 #include <QStringList>
 #include <QPixmap>
 #include <QMovie>
 
-class Player
+class Player : public QObject
 {
+    Q_OBJECT
 public:
-    Player(int userIdN = 0, int rowPlayerN = 0, QString usernameN = 0, int numberImage = 0, double posXN = 0 , double posYN = 0);
+    explicit Player(int userIdN = 0, int rowPlayerN = 0, QString usernameN = 0, int numberImage = 0, double posXN = 0 , double posYN = 0, QObject *parent = 0);
 
     int getUserId();
     int getRowPlayer();
@@ -23,9 +25,6 @@ public:
 
     void updateHealth(int healthN);
     void updatePos(int posXN, int posYN);
-
-    QTimer *timerMoveLeft;
-    QTimer *timerMoveRight;
 
 private:
     int userId;

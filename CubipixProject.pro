@@ -15,11 +15,13 @@ TEMPLATE = app
 SOURCES += main.cpp\
         cubipix.cpp \
     map.cpp \
-    player.cpp
+    player.cpp \
+    playertimer.cpp
 
 HEADERS  += cubipix.h \
     map.h \
-    player.h
+    player.h \
+    playertimer.h
 
 FORMS    += cubipix.ui
 

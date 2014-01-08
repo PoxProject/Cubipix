@@ -81,6 +81,8 @@ private slots:
 
     void on_exitGameButton_clicked();
 
+    void on_continuerResultButton_clicked();
+
 private:
     Ui::Cubipix *ui;
 

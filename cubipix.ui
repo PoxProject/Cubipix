@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1202</width>
+    <width>1201</width>
     <height>542</height>
    </rect>
   </property>
@@ -425,7 +425,7 @@ QPushButton:pressed {
      </property>
      <property name="styleSheet">
       <string notr="true">QWidget {
-	background-color: rgba(0, 0, 0, 50);
+	background-color: rgba(0, 0, 0, 100);
 }
 
 QPushButton {
@@ -493,13 +493,13 @@ QPushButton:pressed {
      </property>
      <property name="styleSheet">
       <string notr="true">QWidget {
-	background-color: rgba(0, 0, 0, 50);
+	background-color: rgba(0, 0, 0, 100);
 }</string>
      </property>
      <widget class="QGroupBox" name="resultGameGroupBox">
       <property name="geometry">
        <rect>
-        <x>250</x>
+        <x>260</x>
         <y>30</y>
         <width>441</width>
         <height>371</height>
@@ -507,20 +507,159 @@ QPushButton:pressed {
       </property>
       <property name="styleSheet">
        <string notr="true">QGroupBox {
-     border: 1px solid gray;
-     border-radius: 2px;
-     margin-top: 1ex;
+	border: 1px solid gray;
+	border-radius: 2px;
+	margin-top: 1ex;
+	background-color: rgba(0, 0, 0, 200);
  }
  
  QGroupBox::title {
-     subcontrol-origin: margin;
-     subcontrol-position: top center;
-     padding: 0 3px;
- }</string>
+	subcontrol-origin: margin;
+	subcontrol-position: top center;
+	padding: 0 3px;
+ }
+
+QLabel {
+	color: white;
+	background-color: rgba(0, 0, 0, 0);
+}
+
+QProgressBar {
+     border: 1px solid grey;
+     border-radius: 2px;
+ }
+
+ QProgressBar::chunk {
+     background-color: rgb(185, 35, 63);
+     width: 20px;
+ }
+
+QPushButton {
+	border: 1px solid rgb(85, 85, 85);
+	border-radius: 10px;
+	background-color: rgb(161, 210, 255);
+}
+
+QPushButton:hover {
+	background-color: rgb(130, 174, 255);
+}
+
+QPushButton:pressed {
+	background-color: rgb(85, 125, 255);
+}</string>
       </property>
       <property name="title">
        <string>Résultats</string>
       </property>
+      <widget class="QLabel" name="mentionResultLabel">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>30</y>
+         <width>311</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>24</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Vous avez gagné !</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_15">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>120</y>
+         <width>71</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Joueur :</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="usernamePlayerResultLabel">
+       <property name="geometry">
+        <rect>
+         <x>230</x>
+         <y>120</y>
+         <width>161</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>username</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="pixmapPlayerResultLabel">
+       <property name="geometry">
+        <rect>
+         <x>50</x>
+         <y>110</y>
+         <width>71</width>
+         <height>121</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>pixmap</string>
+       </property>
+      </widget>
+      <widget class="QProgressBar" name="healthPlayerResultProgressBar">
+       <property name="geometry">
+        <rect>
+         <x>230</x>
+         <y>160</y>
+         <width>161</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QProgressBar {
+     border: 1px solid grey;
+     border-radius: 2px;
+ }
+
+ QProgressBar::chunk {
+     background-color: rgb(185, 35, 63);
+     width: 20px;
+ }</string>
+       </property>
+       <property name="value">
+        <number>100</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_14">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>160</y>
+         <width>71</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Vie restante :</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="continuerResultButton">
+       <property name="geometry">
+        <rect>
+         <x>170</x>
+         <y>310</y>
+         <width>91</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Continuer</string>
+       </property>
+      </widget>
      </widget>
     </widget>
    </widget>

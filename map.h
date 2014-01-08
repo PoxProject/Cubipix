@@ -2,6 +2,7 @@
 #define MAP_H
 
 #include "player.h"
+#include "playertimer.h"
 #include <QObject>
 #include <QGraphicsScene>
 #include <QGraphicsItem>
@@ -84,6 +85,8 @@ private:
     int heightMapView;
 
     QList<QGraphicsProxyWidget *> *playersItemList;
+    QList<QLabel *> *playersSkinList;
+    QList<PlayerTimer *> *playersTimerList;
 
     QList<QList<int> > walls;
     QGraphicsScene *scene;

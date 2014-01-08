@@ -24,6 +24,9 @@ Cubipix::Cubipix(QWidget *parent) :
     ui->healthPlayer2ProgressBar->setTextVisible(false);
     ui->healthPlayer2ProgressBar->setRange(0, 10);
 
+    ui->healthPlayerResultProgressBar->setTextVisible(false);
+    ui->healthPlayerResultProgressBar->setRange(0, 10);
+
     playersClass = new QVector<Player *>();
 
     multiplayer = 0;
@@ -135,10 +138,10 @@ void Cubipix::resizeEvent(QResizeEvent *event)
     ui->exitGameWidget->resize(this->width(), this->height());
     ui->finishPartWidget->resize(this->width(), this->height());
 
-    ui->backGameButton->move(((this->width() / 2) - 111), 100);
-    ui->settingsGameButton->move(((this->width() / 2) - 111), 180);
-    ui->exitGameButton->move(((this->width() / 2) - 111), 240);
-    ui->resultGameGroupBox->move((this->width() / 2) - 441, 100);
+    ui->backGameButton->move(((this->width() / 2) - 111), (this->height() / 2) - 140);
+    ui->settingsGameButton->move(((this->width() / 2) - 111), (this->height() / 2) - 60);
+    ui->exitGameButton->move(((this->width() / 2) - 111), this->height() / 2);
+    ui->resultGameGroupBox->move((this->width() / 2) - 260, (this->height() / 2) - 200);
 
     ui->playersListMultiplayerWidget->move((this->width() - 191), 20);
 
@@ -156,14 +159,14 @@ void Cubipix::keyPressEvent(QKeyEvent *event)
     {
         if(event->key() == Qt::Key_Q)
         {
-            qDebug() << "gauche";
+            //qDebug() << "gauche";
 
             map->startMoveLeft(playersClass->at(0));
         }
 
         if(event->key() == Qt::Key_D)
         {
-            qDebug() << "droite" ;
+            //qDebug() << "droite" ;
 
             //map->moveRight(playersClass->at(0));
 
@@ -172,21 +175,21 @@ void Cubipix::keyPressEvent(QKeyEvent *event)
 
         if(event->key() == Qt::Key_Z)
         {
-            qDebug() << "sauter";
+            //qDebug() << "sauter";
 
             map->jump(playersClass->at(0));
         }
 
         if(event->key() == Qt::Key_U)
         {
-            qDebug() << "player2";
+            //qDebug() << "player2";
 
             //map->moveRight(playersClass->at(1));
         }
 
         if(multiplayer == 1)
         {
-            qDebug() << "sendInformationsPlayer";
+            //qDebug() << "sendInformationsPlayer";
 
             sendDataServer(playersClass->at(0)->getHealth(), playersClass->at(0)->getPosX(), playersClass->at(0)->getPosY());
         }
@@ -218,21 +221,19 @@ void Cubipix::keyReleaseEvent(QKeyEvent *event)
 
 void Cubipix::startMap(QGraphicsScene *scene)
 {
+    logC("startMap");
+
     ui->mapView->setAlignment(Qt::AlignLeft | Qt::AlignAbsolute | Qt::AlignBottom);
     ui->mapView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->mapView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     ui->mapView->setScene(scene);
-
-    logC("startMap");
 }
 
 void Cubipix::updateMap(QGraphicsScene *scene)
 {
-    qDebug() << "updateMap";
+    logC("updateMap");
 
     ui->mapView->setScene(scene);
-
-    logC("updateMap");
 }
 
 void Cubipix::updateView(int scrollValueWidth, int scrollValueHeight)
@@ -243,18 +244,32 @@ void Cubipix::updateView(int scrollValueWidth, int scrollValueHeight)
 
 void Cubipix::updateHealth(Player *player)
 {
-    qDebug() << "updateHealth";
+    //qDebug() << "updateHealth";
 
     ui->healthPlayer1ProgressBar->setValue(player->getHealth());
 }
 
 void Cubipix::finishPart(Player *player)
 {
-    qDebug() << "finishPart";
+    logC("finishPart");
 
-    exit = 0;
+    exit = 1;
 
-    ui->gameWidget->setEnabled(false);
+    if(player->getHealth() > 0)
+    {
+        ui->mentionResultLabel->setText("Vous avez gagné !");
+    }
+    else
+    {
+        ui->mentionResultLabel->setText("Vous avez perdu !");
+    }
+
+    ui->pixmapPlayerResultLabel->setPixmap(player->getSkin());
+
+    ui->usernamePlayerResultLabel->setText(player->getUsername());
+    ui->healthPlayerResultProgressBar->setValue(player->getHealth());
+
+    ui->mapView->setEnabled(false);
     ui->finishPartWidget->show();
 }
 
@@ -748,12 +763,22 @@ void Cubipix::on_settingsGameButton_clicked()
 
 void Cubipix::on_exitGameButton_clicked()
 {
+    logC("exitGameButton");
+
     playersClass->clear();
 
     exitGameWindow();
 
+    ui->mentionResultLabel->clear();
+
+    ui->pixmapPlayerResultLabel->clear();
+
+    ui->usernamePlayerResultLabel->clear();
+    ui->healthPlayerResultProgressBar->setValue(10);
+
     ui->gameWidget->hide();
     ui->levelsWidget->hide();
+    ui->finishPartWidget->hide();
     ui->multiplayerModeWidget->hide();
     ui->multiplayerPartsWidget->hide();
     ui->homeWidget->show();
@@ -762,4 +787,9 @@ void Cubipix::on_exitGameButton_clicked()
 void Cubipix::logC(QString text)
 {
     ui->logCubipix->append(text);
+}
+
+void Cubipix::on_continuerResultButton_clicked()
+{
+    on_exitGameButton_clicked();
 }

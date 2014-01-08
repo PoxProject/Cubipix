@@ -7,6 +7,10 @@ Map::Map(QObject *parent) :
     scene = new QGraphicsScene();
     playersItemList = new QList<QGraphicsProxyWidget *>();
 
+    playersSkinList = new QList<QLabel *>();
+
+    playersTimerList = new QList<PlayerTimer *>();
+
     timerGravity = new QTimer();
 
     timerMoveLeft = new QTimer();
@@ -175,44 +179,58 @@ bool Map::generateMap(QString mapName)
 
 void Map::spawnPlayer(Player *player)
 {
-    qDebug() << "spawnPlayer";
-
-    QLabel *label = new QLabel();
-    label->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
-    label->setPixmap(player->getSkin());
-
-    qDebug() << "test";
-
+    //qDebug() << "spawnPlayer";
+    
+    QLabel *playerSkinLabel = new QLabel();
+    playerSkinLabel->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
+    playerSkinLabel->setPixmap(player->getSkin());
+    
+    //qDebug() << "test";
+    
     QGraphicsProxyWidget *playerItem;
-
-    playerItem = scene->addWidget(label);
+    
+    playerItem = scene->addWidget(playerSkinLabel);
     playerItem->setPos(spawnX, spawnY);
+    
+    PlayerTimer *playerTimer = new PlayerTimer(player);
 
-    qDebug() << "test2";
+    qDebug() << "username" << playerTimer->player->getUsername();
 
+    playerTimer->timerMoveLeft = new QTimer();
+    playerTimer->timerMoveRight = new QTimer();
+
+    playerTimer->timerJump = new QTimer();
+    playerTimer->timerGravity = new QTimer();
+
+    playerTimer->timerCollision = new QTimer();
+    
+    //qDebug() << "test2";
+    
     playersItemList->append(playerItem);
-
+    playersSkinList->append(playerSkinLabel);
+    playersTimerList->append(playerTimer);
+    
     player->updatePos(spawnX, spawnY);
-
-    qDebug() << player->getUsername();
-
+    
+    //qDebug() << player->getUsername();
+    
     emit(updateMap(scene));
 }
 
 void Map::startMoveLeft(Player *player)
 {
-    //qDebug() << "startMoveLeft";
+    qDebug() << "startMoveLeft";
 
     currentPlayer = player;
 
-    QLabel *label = new QLabel();
-    label->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
-    label->setMovie(player->getSkinWalkLeft());
+    playersSkinList->at(player->getRowPlayer() - 1)->setMovie(player->getSkinWalkLeft());
 
     player->getSkinWalkLeft()->start();
 
-    playersItemList->at(player->getRowPlayer() - 1)->setWidget(label);
-    playersItemList->at(player->getRowPlayer() - 1)->setPos(player->getPosX(), player->getPosY());
+    //player->timerMoveLeft = new QTimer();
+
+    //player->timerMoveLeft->start(20);
+
 
     if(!timerMoveLeft->isActive())
     {
@@ -222,29 +240,77 @@ void Map::startMoveLeft(Player *player)
 
         timerMoveLeft->start(20);
     }
+    
+    qDebug() << "test";
+
+    /*
+    if(!playersTimerList->at(player->getRowPlayer() - 1)->isActive())
+    {
+        qDebug() << "test2";
+
+        //playersTimerList->at(player->getRowPlayer() - 1) = new PlayerTimer();
+
+        qDebug() << "test3";
+        
+        connect(playersTimerList->at(player->getRowPlayer() - 1), SIGNAL(timeout()), this, SLOT(moveLeft()));
+
+        qDebug() << "test4";
+        
+        playersTimerList->at(player->getRowPlayer() - 1)->start(20);
+    }
+    */
 }
 
 void Map::stopMoveLeft(Player *player)
 {
     //qDebug() << "stopMoveLeft";
 
-    QLabel *label = new QLabel();
-    label->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
-
     QTransform transform;
     QPixmap pixmapRotated = player->getSkin().transformed(transform.rotate(180, Qt::YAxis));
 
-    label->setPixmap(pixmapRotated);
-
-    playersItemList->at(player->getRowPlayer() - 1)->setWidget(label);
-    playersItemList->at(player->getRowPlayer() - 1)->setPos(player->getPosX(), player->getPosY());
+    playersSkinList->at(player->getRowPlayer() - 1)->setPixmap(pixmapRotated);
 
     timerMoveLeft->stop();
+
+    //playersTimerList->at(player->getRowPlayer() - 1)->stop();
 }
 
 void Map::moveLeft()
 {
-    //qDebug() << "moveLeft";
+    //qDebug << "moveLeft";
+
+    /*
+    PlayerTimer *playerTimer = qobject_cast<PlayerTimer *>(sender());
+
+    if(playerTimer == NULL)
+    {
+        qDebug() << "error";
+        return;
+    }
+
+    qDebug() << "test5";
+    
+    qDebug() << "username" << playerTimer->player->getUsername();
+    
+    //QTimer *timer = qobject_cast<QTimer*>(sender());
+
+    //qDebug() << "test" << timer->parent();
+    
+    if(playerTimer->player->getPosX() > 1 && !isWallLeft(playerTimer->player))
+    {
+        if(!playerTimer->timerMoveLeft->isActive())
+        {
+            setGravity(playerTimer->player);
+        }
+
+        playerTimer->player->updatePos(playerTimer->player->getPosX() - 4, playerTimer->player->getPosY());
+
+        playersItemList->at(playerTimer->player->getRowPlayer() - 1)->setPos(playerTimer->player->getPosX(), playerTimer->player->getPosY());
+    }
+
+    changeValueScrollBar(true);
+    detectCollision(playerTimer->player);
+    */
 
     if(currentPlayer->getPosX() > 1 && !isWallLeft(currentPlayer))
     {
@@ -268,14 +334,9 @@ void Map::startMoveRight(Player *player)
 
     currentPlayer = player;
 
-    QLabel *label = new QLabel();
-    label->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
-    label->setMovie(player->getSkinWalkRight());
+    playersSkinList->at(player->getRowPlayer() - 1)->setMovie(player->getSkinWalkRight());
 
     player->getSkinWalkRight()->start();
-
-    playersItemList->at(player->getRowPlayer() - 1)->setWidget(label);
-    playersItemList->at(player->getRowPlayer() - 1)->setPos(player->getPosX(), player->getPosY());
 
     if(!timerMoveRight->isActive())
     {
@@ -291,12 +352,7 @@ void Map::stopMoveRight(Player *player)
 {
     //qDebug() << "stopMoveRight";
 
-    QLabel *label = new QLabel();
-    label->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
-    label->setPixmap(player->getSkin());
-
-    playersItemList->at(player->getRowPlayer() - 1)->setWidget(label);
-    playersItemList->at(player->getRowPlayer() - 1)->setPos(player->getPosX(), player->getPosY());
+    playersSkinList->at(player->getRowPlayer() - 1)->setPixmap(player->getSkin());
 
     timerMoveRight->stop();
 }
@@ -391,7 +447,7 @@ bool Map::isWallLeft(Player *player)
     {
         if(walls.at((qCeil(((player->getPosY() + 64) / pixelMap) - 1))).at((((player->getPosX() + 32) / pixelMap) - 1)) != 0 && returnMargin != 0)
         {
-            qDebug() << "jumpBloc";
+            //qDebug() << "jumpBloc";
 
             return true;
         }
@@ -439,18 +495,18 @@ bool Map::isWallRight(Player *player)
 
 bool Map::isWallUp(Player *player)
 {
-    qDebug() << "isWallUp";
+    //qDebug() << "isWallUp";
 
-    qDebug() << "yBetween=" << qCeil(((player->getPosY() + 64) / pixelMap) - 3);
-    qDebug() << "xBetween=" << qCeil(player->getPosX() / pixelMap);
+    //qDebug() << "yBetween=" << qCeil(((player->getPosY() + 64) / pixelMap) - 3);
+    //qDebug() << "xBetween=" << qCeil(player->getPosX() / pixelMap);
 
     double returnMargin = (int(((player->getPosY() + 64) / pixelMap) - 1) + 1) - (((player->getPosY() + 64) / pixelMap) - 1);
 
     double nextBlocUp = (int)player->getPosX() % pixelMap;
 
-    qDebug() << "resultMargin" << returnMargin;
-    qDebug() << "nextBlocUp" << nextBlocUp;
-    qDebug() << "blocCollision" << walls.at((qCeil(((player->getPosY() + 64) / 32) - 3))).at((player->getPosX() / 32));
+    //qDebug() << "resultMargin" << returnMargin;
+    //qDebug() << "nextBlocUp" << nextBlocUp;
+    //qDebug() << "blocCollision" << walls.at((qCeil(((player->getPosY() + 64) / 32) - 3))).at((player->getPosX() / 32));
 
     if (walls.at((qCeil(((player->getPosY() + 64) / pixelMap) - 3))).at((player->getPosX() / pixelMap)) != 0)
     {
@@ -460,7 +516,7 @@ bool Map::isWallUp(Player *player)
     {
         if(walls.at((qCeil(((player->getPosY() + 64) / pixelMap) - 3))).at((qCeil(player->getPosX() / pixelMap))) != 0 && returnMargin >= 0.5)
         {
-            qDebug() << "demiBloc";
+            //qDebug() << "demiBloc";
 
             return true;
         }
@@ -507,7 +563,7 @@ bool Map::isWallDown(Player *player)
 
         if(walls.at(((player->getPosY() + 64) / pixelMap)).at(((player->getPosX() / pixelMap) + 1)) == 0 && nextBlocDown >= 20)
         {
-            qDebug() << "blocDownEmpty";
+            //qDebug() << "blocDownEmpty";
 
             return false;
         }
@@ -520,7 +576,7 @@ bool Map::isWallDown(Player *player)
     {
         if(walls.at(((player->getPosY() + 64) / pixelMap)).at(((player->getPosX() / pixelMap) + 1)) != 0 && resultMargin < 0.875)
         {
-            qDebug() << "noDown";
+            //qDebug() << "noDown";
 
             return true;
         }
@@ -621,7 +677,7 @@ void Map::changeValueScrollBar(bool left)
         scrollValueHeight -= 6;
     }
 
-    if(marge <= 2)
+    if(marge <= 3)
     {
         scrollValueHeight += 6;
     }
@@ -636,9 +692,9 @@ void Map::detectCollision(Player *player)
     int underBlocX = qCeil(player->getPosX() / pixelMap);
     int underBlocY = (player->getPosY() + 64) / pixelMap;
 
-    qDebug() << "underBlocX" << underBlocX;
-    qDebug() << "underBlocY" << underBlocY;
-    qDebug() << "valueUnderBloc" << walls.at(underBlocY).at(underBlocX);
+    //qDebug() << "underBlocX" << underBlocX;
+    //qDebug() << "underBlocY" << underBlocY;
+    //qDebug() << "valueUnderBloc" << walls.at(underBlocY).at(underBlocX);
 
     if(walls.at(underBlocY).at(underBlocX) == 2)
     {
@@ -655,6 +711,8 @@ void Map::detectCollision(Player *player)
     }
     else if(walls.at(underBlocY).at(underBlocX) == 4)
     {
+        timerCollision->stop();
+
         emit(finishPart(currentPlayer));
 
         return;
@@ -669,10 +727,12 @@ void Map::changeHealth()
 {
     currentPlayer->updateHealth(currentPlayer->getHealth() - 1);
 
-    qDebug() << "playerHealth" << currentPlayer->getHealth();
+    //qDebug() << "playerHealth" << currentPlayer->getHealth();
 
     if(currentPlayer->getHealth() <= 0)
     {
+        timerCollision->stop();
+
         emit(finishPart(currentPlayer));
 
         return;

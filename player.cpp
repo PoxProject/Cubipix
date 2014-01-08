@@ -1,6 +1,6 @@
 #include "player.h"
 
-Player::Player(int userIdN, int rowPlayerN, QString usernameN, int numberImage, double posXN, double posYN)
+Player::Player(int userIdN, int rowPlayerN, QString usernameN, int numberImage, double posXN, double posYN, QObject *parent) : QObject(parent)
 {
     userId = userIdN;
     rowPlayer = rowPlayerN;
