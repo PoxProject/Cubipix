@@ -18,5 +18,6 @@
         <file>files/images/background.png</file>
         <file>files/images/skins/skin1-walkLeft.gif</file>
         <file>files/images/skins/skin1-walkRight.gif</file>
+        <file>files/images/textures/backgroundEditor.png</file>
     </qresource>
 </RCC>

@@ -6,6 +6,9 @@
 #include <QGraphicsItem>
 #include <QLabel>
 #include <QMovie>
+#include <QDebug>
+#include <QMouseEvent>
+#include <QGraphicsProxyWidget>
 
 namespace Ui {
 class mapEditor;
@@ -39,9 +42,16 @@ private:
     Ui::mapEditor *ui;
     QGraphicsScene *scene;
     int pixelMap;
-    int defaultHeight;
-    void LoadMaterials();
+    int defaultHeight, defaultwidth;
     void resizeEvent(QResizeEvent *event);
+    void mouseMoveEvent( QMouseEvent* event );
+    void mousePressEvent(QMouseEvent* event);
+    void drawLines();
+
+    QGraphicsItem *itemgrille;
+
+    int checkedBlock = 0;
+
 };
 
 #endif // MAPEDITOR_H
