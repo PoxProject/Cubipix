@@ -16,14 +16,17 @@ SOURCES += main.cpp\
         cubipix.cpp \
     map.cpp \
     player.cpp \
-    playertimer.cpp
+    playertimer.cpp \
+    mapeditor.cpp
 
 HEADERS  += cubipix.h \
     map.h \
     player.h \
-    playertimer.h
+    playertimer.h \
+    mapeditor.h
 
-FORMS    += cubipix.ui
+FORMS    += cubipix.ui \
+    mapeditor.ui
 
 RESOURCES += \
     ressources.qrc

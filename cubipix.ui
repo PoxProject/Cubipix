@@ -120,6 +120,26 @@ QPushButton:pressed {
       <string>A Propos</string>
      </property>
     </widget>
+    <widget class="QPushButton" name="mapEditorButton">
+     <property name="geometry">
+      <rect>
+       <x>260</x>
+       <y>240</y>
+       <width>171</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Editeur de map</string>
+     </property>
+    </widget>
+    <zorder>label</zorder>
+    <zorder>playLevelButton</zorder>
+    <zorder>multiplayerButton</zorder>
+    <zorder>pushButton_3</zorder>
+    <zorder>pushButton_4</zorder>
+    <zorder>levelsWidget</zorder>
+    <zorder>mapEditorButton</zorder>
    </widget>
    <widget class="QWidget" name="levelsWidget" native="true">
     <property name="geometry">
@@ -167,6 +187,7 @@ QPushButton:pressed {
         <height>429</height>
        </rect>
       </property>
+      <zorder>gameWidget</zorder>
      </widget>
     </widget>
     <widget class="QLabel" name="label_2">
@@ -481,6 +502,11 @@ QPushButton:pressed {
        <string>Quitter</string>
       </property>
      </widget>
+     <zorder>backGameButton</zorder>
+     <zorder>settingsGameButton</zorder>
+     <zorder>exitGameButton</zorder>
+     <zorder>finishPartWidget</zorder>
+     <zorder>mapView</zorder>
     </widget>
     <widget class="QWidget" name="finishPartWidget" native="true">
      <property name="geometry">
@@ -661,6 +687,8 @@ QPushButton:pressed {
        </property>
       </widget>
      </widget>
+     <zorder>resultGameGroupBox</zorder>
+     <zorder>multiplayerModeWidget</zorder>
     </widget>
    </widget>
    <widget class="QWidget" name="multiplayerModeWidget" native="true">
@@ -898,6 +926,24 @@ QPushButton:pressed {
       <number>1</number>
      </property>
     </widget>
+    <zorder>line</zorder>
+    <zorder>usernameLineEdit</zorder>
+    <zorder>passwordLineEdit</zorder>
+    <zorder>label_4</zorder>
+    <zorder>label_6</zorder>
+    <zorder>label_7</zorder>
+    <zorder>label_8</zorder>
+    <zorder>loginButton</zorder>
+    <zorder>label_9</zorder>
+    <zorder>label_10</zorder>
+    <zorder>namePlayer1LineEdit</zorder>
+    <zorder>label_11</zorder>
+    <zorder>namePlayer2LineEdit</zorder>
+    <zorder>startLocalPartMultiplayerButton</zorder>
+    <zorder>backMultiplayerButton</zorder>
+    <zorder>label_12</zorder>
+    <zorder>mapMultiplayerSpinBox</zorder>
+    <zorder>multiplayerPartsWidget</zorder>
    </widget>
    <widget class="QWidget" name="multiplayerPartsWidget" native="true">
     <property name="geometry">

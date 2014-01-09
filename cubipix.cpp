@@ -73,6 +73,12 @@ void Cubipix::on_playLevelButton_clicked()
     ui->levelsWidget->show();
 }
 
+void Cubipix::on_mapEditorButton_clicked()
+{
+    mapEditor *editor = new mapEditor();
+    editor->show();
+}
+
 void Cubipix::on_backLevelsButton_clicked()
 {
     ui->levelsWidget->hide();

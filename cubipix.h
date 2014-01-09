@@ -10,6 +10,7 @@
 #include <QStandardItemModel>
 #include <QMap>
 #include <QScrollBar>
+#include "mapeditor.h"
 
 namespace Ui {
 class Cubipix;
@@ -27,6 +28,8 @@ private slots:
     void on_playLevelButton_clicked();
 
     void on_backLevelsButton_clicked();
+
+    void on_mapEditorButton_clicked();
 
     void buttonLevelClicked();
 
@@ -105,6 +108,8 @@ private:
     QMap<QString, int> listPlayers;
 
     QStandardItemModel *model;
+
+    bool editing = false;
 
     QTcpSocket *socket;
     quint16 sizeMessage;
