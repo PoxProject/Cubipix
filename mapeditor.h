@@ -24,19 +24,25 @@ public:
 
 private slots:
 
-    void on_spawnButton_toggled(bool checked);
+    void on_spawnButton_clicked();
 
-    void on_lavaButton_toggled(bool checked);
+    void on_lavaButton_clicked();
 
-    void on_grassButton_toggled(bool checked);
+    void on_grassButton_clicked();
 
-    void on_endLevelButton_toggled(bool checked);
+    void on_endLevelButton_clicked();
 
-    void on_dirtButton_toggled(bool checked);
+    void on_dirtButton_clicked();
 
-    void on_cloudButton_toggled(bool checked);
+    void on_cloudButton_clicked();
 
-    void on_brickButton_toggled(bool checked);
+    void on_brickButton_clicked();
+
+    void on_pushButton_clicked();
+
+    void on_saveButton_clicked();
+
+    void on_cancelButton_clicked();
 
 private:
     Ui::mapEditor *ui;
@@ -47,6 +53,8 @@ private:
     void mouseMoveEvent( QMouseEvent* event );
     void mousePressEvent(QMouseEvent* event);
     void drawLines();
+
+    QList<QList<int> > mapState;
 
     QGraphicsItem *itemgrille;
 

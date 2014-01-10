@@ -7,18 +7,16 @@ mapEditor::mapEditor(QWidget *parent) :
 {
 
     ui->setupUi(this);
-    scene = new QGraphicsScene();
+   // this->setMouseTracking(true);
     pixelMap = 32;
     defaultHeight = 25;
     defaultwidth = 300;
-
-
     ui->mapEditorGraphicsView->setGeometry(0,0,this->width(),this->height());
+    scene = new QGraphicsScene();
     ui->mapEditorGraphicsView->setScene(scene);
     ui->widget->setGeometry((this->width()/2)-(ui->widget->width()/2),0,ui->widget->width(),ui->widget->height());
+    ui->saveWidget->hide();
 
-
-    //LoadMaterials();
     //drawLines();
 }
 
@@ -31,19 +29,23 @@ void mapEditor::resizeEvent(QResizeEvent *event)
 {
     ui->mapEditorGraphicsView->setGeometry(0,0,this->width(),this->height());
     ui->widget->setGeometry((this->width()/2)-(ui->widget->width()/2),0,ui->widget->width(),ui->widget->height());
+    ui->saveWidget->setGeometry(0,0, this->width(),this->height());
+    ui->groupSaveWidget->setGeometry((this->width()/2)-(ui->groupSaveWidget->width()/2),(this->height()/2)-(ui->groupSaveWidget->height()/2), ui->groupSaveWidget->width(),ui->groupSaveWidget->height());
+
     //drawLines();
 
 }
 
-void mapEditor::mouseMoveEvent( QMouseEvent* event )
+void mapEditor::mouseMoveEvent( QMouseEvent *event )
 {
+    qDebug() << "testTrac";
+  //  qDebug() << "mouse" << checkedBlock << event->pos().x() << event->pos().y() << event->pos().x()/32 << event->pos().y()/32;
+  //  int x = event->pos().x()/32, y = event->pos().y()/32;
 
-}
+/*    if(mapState.at(y).at(x) == 0 && event->button() == Qt::LeftButton)
+    {
 
-void mapEditor::mousePressEvent( QMouseEvent* event )
-{
-    qDebug() << "mouse" << checkedBlock << event->pos().x() << event->pos().y() << event->pos().x()/32 << event->pos().y()/32;
-    int x = event->pos().x()/32, y = event->pos().y()/32;
+
     QGraphicsProxyWidget *proxyWidgetItem;
     QLabel *label;
     QMovie *lavaMovie = new QMovie(":/files/images/textures/lava.gif");
@@ -54,6 +56,10 @@ void mapEditor::mousePressEvent( QMouseEvent* event )
     QPixmap dirt(":/files/images/textures/dirt.png");
     QPixmap brick(":/files/images/textures/brick.png");
     QPixmap spawn(":/files/images/textures/spawn.jpg");
+
+
+    mapState[y][x] = checkedBlock;
+
 
     switch (checkedBlock)
     {
@@ -110,26 +116,131 @@ void mapEditor::mousePressEvent( QMouseEvent* event )
             qDebug() << "defaul";
         break;
     }
+    }
+    else if (mapState.at(y).at(x) != 0 && event->button() == Qt::RightButton) {
 
+        QPixmap backgoundGrilleR(":/files/images/textures/backgroundEditor.png");
+        itemgrille = scene->addPixmap(backgoundGrilleR);
+        itemgrille->setPos(x * pixelMap, y * pixelMap);
+        mapState[y][x] = 0;
+    }
+    else
+    {
+        qDebug()<< "aleready block";
+    }*/
 }
 
-void mapEditor::on_spawnButton_toggled(bool checked)
+void mapEditor::mousePressEvent( QMouseEvent* event )
 {
-    drawLines();
+
+    qDebug() << "mouse" << checkedBlock << event->pos().x() << event->pos().y() << event->pos().x()/32 << event->pos().y()/32;
+    int x = event->pos().x()/32, y = event->pos().y()/32;
+
+    if(mapState.at(y).at(x) == 0 && event->button() == Qt::LeftButton)
+    {
+
+
+    QGraphicsProxyWidget *proxyWidgetItem;
+    QLabel *label;
+    QMovie *lavaMovie = new QMovie(":/files/images/textures/lava.gif");
+    QMovie *endMovie = new QMovie(":/files/images/textures/end.gif");
+
+    QPixmap cloud(":/files/images/textures/cloud.png");
+    QPixmap grass(":/files/images/textures/grass.png");
+    QPixmap dirt(":/files/images/textures/dirt.png");
+    QPixmap brick(":/files/images/textures/brick.png");
+    QPixmap spawn(":/files/images/textures/spawn.jpg");
+
+
+    mapState[y][x] = checkedBlock;
+
+
+    switch (checkedBlock)
+    {
+    case 1:
+        itemgrille = scene->addPixmap(grass);
+        itemgrille->setPos(x * pixelMap, y * pixelMap);
+
+        break;
+    case 2:
+        itemgrille = scene->addPixmap(dirt);
+        itemgrille->setPos(x * pixelMap, y * pixelMap);
+
+        break;
+    case 3:
+        itemgrille = scene->addPixmap(brick);
+        itemgrille->setPos(x * pixelMap, y * pixelMap);
+
+        break;
+    case 4:
+        itemgrille = scene->addPixmap(spawn);
+        itemgrille->setPos(x * pixelMap, y * pixelMap);
+
+        break;
+    case 6:
+        qDebug() << "lava";
+
+        label = new QLabel();
+        label->setMovie(lavaMovie);
+
+        lavaMovie->start();
+
+        proxyWidgetItem = scene->addWidget(label);
+        proxyWidgetItem->setPos(x * pixelMap, y * pixelMap);
+
+        break;
+    case 7:
+        qDebug() << "end";
+
+        label = new QLabel();
+        label->setMovie(endMovie);
+
+        endMovie->start();
+
+        proxyWidgetItem = scene->addWidget(label);
+        proxyWidgetItem->setPos(x * pixelMap, (y * pixelMap) - 64);
+
+        break;
+    case 8:
+        itemgrille = scene->addPixmap(cloud);
+        itemgrille->setPos(x * pixelMap, y * pixelMap);
+
+        break;
+    default:
+            qDebug() << "defaul";
+        break;
+    }
+    }
+    else if (mapState.at(y).at(x) != 0 && event->button() == Qt::RightButton) {
+
+        QPixmap backgoundGrilleR(":/files/images/textures/backgroundEditor.png");
+        itemgrille = scene->addPixmap(backgoundGrilleR);
+        itemgrille->setPos(x * pixelMap, y * pixelMap);
+        mapState[y][x] = 0;
+    }
+    else
+    {
+        qDebug()<< "aleready block";
+    }
+}
+
+void mapEditor::on_spawnButton_clicked()
+{
+   // drawLines();
     ui->lavaButton->setChecked(false);
     ui->brickButton->setChecked(false);
     ui->cloudButton->setChecked(false);
     ui->dirtButton->setChecked(false);
     ui->endLevelButton->setChecked(false);
     ui->grassButton->setChecked(false);
-    ui->spawnButton->setChecked(checked);
+    ui->spawnButton->setChecked(true);
     checkedBlock = 4;
 
 }
 
-void mapEditor::on_lavaButton_toggled(bool checked)
+void mapEditor::on_lavaButton_clicked()
 {
-    ui->lavaButton->setChecked(checked);
+    ui->lavaButton->setChecked(true);
     ui->brickButton->setChecked(false);
     ui->cloudButton->setChecked(false);
     ui->dirtButton->setChecked(false);
@@ -139,47 +250,47 @@ void mapEditor::on_lavaButton_toggled(bool checked)
     checkedBlock = 6;
 }
 
-void mapEditor::on_grassButton_toggled(bool checked)
+void mapEditor::on_grassButton_clicked()
 {
     ui->lavaButton->setChecked(false);
     ui->brickButton->setChecked(false);
     ui->cloudButton->setChecked(false);
     ui->dirtButton->setChecked(false);
     ui->endLevelButton->setChecked(false);
-    ui->grassButton->setChecked(checked);
+    ui->grassButton->setChecked(true);
     ui->spawnButton->setChecked(false);
     checkedBlock = 1;
 }
 
-void mapEditor::on_endLevelButton_toggled(bool checked)
+void mapEditor::on_endLevelButton_clicked()
 {
     ui->lavaButton->setChecked(false);
     ui->brickButton->setChecked(false);
     ui->cloudButton->setChecked(false);
     ui->dirtButton->setChecked(false);
-    ui->endLevelButton->setChecked(checked);
+    ui->endLevelButton->setChecked(true);
     ui->grassButton->setChecked(false);
     ui->spawnButton->setChecked(false);
     checkedBlock = 7;
 }
 
-void mapEditor::on_dirtButton_toggled(bool checked)
+void mapEditor::on_dirtButton_clicked()
 {
     ui->lavaButton->setChecked(false);
     ui->brickButton->setChecked(false);
     ui->cloudButton->setChecked(false);
-    ui->dirtButton->setChecked(checked);
+    ui->dirtButton->setChecked(true);
     ui->endLevelButton->setChecked(false);
     ui->grassButton->setChecked(false);
     ui->spawnButton->setChecked(false);
     checkedBlock = 2;
 }
 
-void mapEditor::on_cloudButton_toggled(bool checked)
+void mapEditor::on_cloudButton_clicked()
 {
     ui->lavaButton->setChecked(false);
     ui->brickButton->setChecked(false);
-    ui->cloudButton->setChecked(checked);
+    ui->cloudButton->setChecked(true);
     ui->dirtButton->setChecked(false);
     ui->endLevelButton->setChecked(false);
     ui->grassButton->setChecked(false);
@@ -187,10 +298,10 @@ void mapEditor::on_cloudButton_toggled(bool checked)
     checkedBlock = 8;
 }
 
-void mapEditor::on_brickButton_toggled(bool checked)
+void mapEditor::on_brickButton_clicked()
 {
     ui->lavaButton->setChecked(false);
-    ui->brickButton->setChecked(checked);
+    ui->brickButton->setChecked(true);
     ui->cloudButton->setChecked(false);
     ui->dirtButton->setChecked(false);
     ui->endLevelButton->setChecked(false);
@@ -206,18 +317,37 @@ void mapEditor::drawLines()
     //scene->clear();
 
     QPixmap backgoundGrilleR(":/files/images/textures/backgroundEditor.png");
+    QList<int> temp ;
 
-    for (int x=0; x<defaultwidth;x++)
+    for (int y=0; y<defaultHeight;y++)
     {
-        for (int y=0;y<defaultHeight;y++)
+        temp.clear();
+        for (int x=0;x<defaultwidth;x++)
         {
+            temp.append(0);
             itemgrille = scene->addPixmap(backgoundGrilleR);
             itemgrille->setPos(x*pixelMap,y*pixelMap);
         }
+        mapState.append(temp);
 
     }
-    //on trace les pixmap
+   // qDebug()<< mapState;
 
     //on remet le list des element !
 
+}
+
+void mapEditor::on_pushButton_clicked()
+{
+    drawLines();
+}
+
+void mapEditor::on_saveButton_clicked()
+{
+    ui->saveWidget->show();
+}
+
+void mapEditor::on_cancelButton_clicked()
+{
+    ui->saveWidget->hide();
 }
