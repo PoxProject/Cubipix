@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>829</width>
-    <height>450</height>
+    <width>1105</width>
+    <height>719</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -48,9 +48,9 @@
    <widget class="QWidget" name="widget" native="true">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>150</x>
       <y>0</y>
-      <width>551</width>
+      <width>521</width>
       <height>51</height>
      </rect>
     </property>
@@ -328,7 +328,7 @@ QPushButton::checked {
     <widget class="QPushButton" name="saveButton">
      <property name="geometry">
       <rect>
-       <x>460</x>
+       <x>430</x>
        <y>10</y>
        <width>31</width>
        <height>31</height>
@@ -337,7 +337,7 @@ QPushButton::checked {
      <property name="styleSheet">
       <string notr="true">QPushButton {
 	border: 1px solid rgb(0, 0, 0);
-	background-image: url(:/files/images/textures/save.png);
+	background-image: url(:/files/images/icons/save.png);
 }
 
 QPushButton::checked {
@@ -354,7 +354,7 @@ QPushButton::pressed {
     <widget class="QPushButton" name="openMapFile">
      <property name="geometry">
       <rect>
-       <x>510</x>
+       <x>480</x>
        <y>10</y>
        <width>31</width>
        <height>31</height>
@@ -363,7 +363,7 @@ QPushButton::pressed {
      <property name="styleSheet">
       <string notr="true">QPushButton {
 	border: 1px solid rgb(0, 0, 0);
-	background-image: url(:/files/images/textures/open.png);
+	background-image: url(:/files/images/icons/open.png);
 }
 
 QPushButton::checked {
@@ -377,10 +377,10 @@ QPushButton::pressed {
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="newMapButton">
      <property name="geometry">
       <rect>
-       <x>360</x>
+       <x>380</x>
        <y>10</y>
        <width>31</width>
        <height>31</height>
@@ -389,33 +389,7 @@ QPushButton::pressed {
      <property name="styleSheet">
       <string notr="true">QPushButton {
 	border: 1px solid rgb(0, 0, 0);
-	background-image: url(:/files/images/textures/save.png);
-}
-
-QPushButton::checked {
-	border: 1px solid rgb(70, 255, 215);
-}
-QPushButton::pressed {
-	border: 1px solid rgb(70, 255, 215);
-}</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_2">
-     <property name="geometry">
-      <rect>
-       <x>410</x>
-       <y>10</y>
-       <width>31</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QPushButton {
-	border: 1px solid rgb(0, 0, 0);
-	background-image: url(:/files/images/textures/save.png);
+	background-image: url(:/files/images/icons/new.png);
 }
 
 QPushButton::checked {
@@ -433,10 +407,10 @@ QPushButton::pressed {
    <widget class="QWidget" name="saveWidget" native="true">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>420</y>
-      <width>711</width>
-      <height>441</height>
+      <x>330</x>
+      <y>30</y>
+      <width>531</width>
+      <height>311</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -453,15 +427,16 @@ QPushButton::pressed {
     <widget class="QWidget" name="groupSaveWidget" native="true">
      <property name="geometry">
       <rect>
-       <x>220</x>
-       <y>90</y>
-       <width>291</width>
-       <height>211</height>
+       <x>130</x>
+       <y>70</y>
+       <width>281</width>
+       <height>131</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true">QWidget {
-	background-color: rgba(0, 0, 0, 100);
+      <string notr="true">QLabel {
+	color: white;
+	background-color: rgba(0, 0, 0, 0);
 }
 
 QPushButton {
@@ -481,21 +456,21 @@ QPushButton:pressed {
      <widget class="QLabel" name="nameFileLabel">
       <property name="geometry">
        <rect>
-        <x>60</x>
+        <x>10</x>
         <y>50</y>
-        <width>171</width>
-        <height>16</height>
+        <width>81</width>
+        <height>21</height>
        </rect>
       </property>
       <property name="text">
-       <string>Nom du fichier</string>
+       <string>Nom du fichier :</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="FileNameLineEdit">
       <property name="geometry">
        <rect>
-        <x>60</x>
-        <y>70</y>
+        <x>100</x>
+        <y>50</y>
         <width>171</width>
         <height>20</height>
        </rect>
@@ -504,8 +479,8 @@ QPushButton:pressed {
      <widget class="QPushButton" name="ValidButton">
       <property name="geometry">
        <rect>
-        <x>50</x>
-        <y>130</y>
+        <x>120</x>
+        <y>100</y>
         <width>75</width>
         <height>23</height>
        </rect>
@@ -517,8 +492,8 @@ QPushButton:pressed {
      <widget class="QPushButton" name="cancelButton">
       <property name="geometry">
        <rect>
-        <x>160</x>
-        <y>130</y>
+        <x>200</x>
+        <y>100</y>
         <width>75</width>
         <height>23</height>
        </rect>
@@ -527,15 +502,33 @@ QPushButton:pressed {
        <string>Annuler</string>
       </property>
      </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>0</y>
+        <width>181</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Enregistrement de la map</string>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QWidget" name="loadingWidget" native="true">
     <property name="geometry">
      <rect>
-      <x>750</x>
-      <y>-30</y>
-      <width>711</width>
-      <height>441</height>
+      <x>600</x>
+      <y>60</y>
+      <width>461</width>
+      <height>241</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -552,36 +545,42 @@ QPushButton:pressed {
     <widget class="QWidget" name="loading" native="true">
      <property name="geometry">
       <rect>
-       <x>210</x>
-       <y>100</y>
-       <width>291</width>
-       <height>211</height>
+       <x>120</x>
+       <y>80</y>
+       <width>221</width>
+       <height>61</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel {
+	color: white;
+	background-color: rgba(0, 0, 0, 0);
+}</string>
      </property>
      <widget class="QLabel" name="label_3">
       <property name="geometry">
        <rect>
-        <x>140</x>
-        <y>100</y>
+        <x>80</x>
+        <y>20</y>
         <width>131</width>
         <height>20</height>
        </rect>
       </property>
       <property name="text">
-       <string>Chargement en cour...</string>
+       <string>Chargement en cours ...</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_4">
       <property name="geometry">
        <rect>
-        <x>80</x>
-        <y>100</y>
+        <x>20</x>
+        <y>20</y>
         <width>46</width>
         <height>21</height>
        </rect>
       </property>
       <property name="text">
-       <string>TextLabel</string>
+       <string>Loading</string>
       </property>
      </widget>
     </widget>
@@ -589,10 +588,10 @@ QPushButton:pressed {
    <widget class="QWidget" name="loadMapWidget" native="true">
     <property name="geometry">
      <rect>
-      <x>-640</x>
-      <y>10</y>
-      <width>711</width>
-      <height>441</height>
+      <x>160</x>
+      <y>300</y>
+      <width>431</width>
+      <height>361</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -626,46 +625,76 @@ QPushButton:pressed {
     <widget class="QWidget" name="loadMap" native="true">
      <property name="geometry">
       <rect>
-       <x>210</x>
-       <y>100</y>
-       <width>291</width>
+       <x>70</x>
+       <y>40</y>
+       <width>281</width>
        <height>271</height>
       </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel {
+	color: white;
+	background-color: rgba(0, 0, 0, 0);
+}</string>
      </property>
      <widget class="QPushButton" name="loadMapButton">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>220</y>
+        <x>120</x>
+        <y>240</y>
         <width>75</width>
         <height>23</height>
        </rect>
       </property>
       <property name="text">
-       <string>Load</string>
+       <string>Charger</string>
       </property>
      </widget>
      <widget class="QPushButton" name="cancelLoadMapButton">
       <property name="geometry">
        <rect>
-        <x>180</x>
-        <y>220</y>
+        <x>200</x>
+        <y>240</y>
         <width>75</width>
         <height>23</height>
        </rect>
       </property>
       <property name="text">
-       <string>Cancel</string>
+       <string>Annuler</string>
       </property>
      </widget>
      <widget class="QListWidget" name="fileList">
       <property name="geometry">
        <rect>
-        <x>15</x>
-        <y>10</y>
+        <x>10</x>
+        <y>30</y>
         <width>261</width>
         <height>192</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QListWidget {
+	border: 1px solid gray;
+	color: white;
+}</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_2">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>0</y>
+        <width>121</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Ouvrir une map</string>
       </property>
      </widget>
     </widget>

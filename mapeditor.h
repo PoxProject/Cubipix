@@ -56,6 +56,8 @@ private slots:
 
     void on_openMapFile_clicked();
 
+    void on_newMapButton_clicked();
+
 private:
     Ui::mapEditor *ui;
     QGraphicsScene *scene;

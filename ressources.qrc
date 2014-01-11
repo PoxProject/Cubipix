@@ -19,7 +19,8 @@
         <file>files/images/skins/skin1-walkLeft.gif</file>
         <file>files/images/skins/skin1-walkRight.gif</file>
         <file>files/images/textures/backgroundEditor.png</file>
-        <file>files/images/textures/open.png</file>
-        <file>files/images/textures/save.png</file>
+        <file>files/images/icons/new.png</file>
+        <file>files/images/icons/open.png</file>
+        <file>files/images/icons/save.png</file>
     </qresource>
 </RCC>

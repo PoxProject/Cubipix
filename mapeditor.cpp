@@ -5,8 +5,10 @@ mapEditor::mapEditor(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::mapEditor)
 {
-
     ui->setupUi(this);
+
+    setWindowTitle(QString("Editeur de map - Cubipix"));
+
    // this->setMouseTracking(true);
     pixelMap = 32;
     defaultHeight = 25;
@@ -24,6 +26,10 @@ mapEditor::mapEditor(QWidget *parent) :
     ui->loadMap->setGeometry((this->width()/2)-(ui->loadMap->width()/2),(this->height()/2)-(ui->loadMap->height()/2), ui->loadMap->width(),ui->loadMap->height());
     ui->loadMapWidget->hide();
     //drawLines();
+
+    ui->dirtButton->setChecked(true);
+
+    checkedBlock = 2;
 }
 
 mapEditor::~mapEditor()
@@ -327,27 +333,26 @@ void mapEditor::on_brickButton_clicked()
 void mapEditor::drawLines()
 {
     qDebug() << "test1";
+
     ui->loadingWidget->hide();
-    //scene->clear();
+
     QPixmap backgoundGrilleR(":/files/images/textures/backgroundEditor.png");
-    QList<int> temp ;
+    QList<int> temp;
 
     for (int y=0; y<defaultHeight;y++)
     {
         temp.clear();
+
         for (int x=0;x<defaultwidth;x++)
         {
             temp.append(0);
+
             itemgrille = scene->addPixmap(backgoundGrilleR);
             itemgrille->setPos(x*pixelMap,y*pixelMap);
         }
+
         mapState.append(temp);
-
     }
-   // qDebug()<< mapState;
-
-    //on remet le list des element !
-
 }
 
 void mapEditor::on_saveButton_clicked()
@@ -366,56 +371,67 @@ void mapEditor::on_ValidButton_clicked()
     {
         QDir().mkdir("customMaps");
     }
+
     if (ui->FileNameLineEdit->text() != "")
     {
         QString temporyFileName = ui->FileNameLineEdit->text() + ".map";
-        QFile file("customMaps/"+temporyFileName);
-        QString line ;
-        file.open(QIODevice::WriteOnly);
-        QTextStream outStream(&file);
 
-        for(int y= 0;y<5;y++)
+        if(!QFileInfo::exists("customMaps/" + temporyFileName))
         {
-            line.clear();
-            for(int x=0;x<mapState.at(0).length();x++)
+            QFile file("customMaps/" + temporyFileName);
+            QString line ;
+            file.open(QIODevice::WriteOnly);
+            QTextStream outStream(&file);
+
+            for(int y= 0;y<5;y++)
             {
-                line.append(QString::number(0));
+                line.clear();
+                for(int x=0;x<mapState.at(0).length();x++)
+                {
+                    line.append(QString::number(0));
+                }
+                outStream << line + "\n";
             }
-            outStream << line + "\n";
+
+
+
+            for (int y=0; y<mapState.length();y++)
+            {
+                line.clear();
+                for (int x=0;x<mapState.at(y).length();x++)
+                {
+                    line.append(QString::number(mapState.at(y).at(x)));
+                }
+                outStream << line + "\n";
+
+            }
+
+            for(int y= 0;y<5;y++)
+            {
+                line.clear();
+                for(int x=0;x<mapState.at(0).length();x++)
+                {
+                    if (y>2)
+                    line.append(QString::number(6));
+                    else
+                    line.append(QString::number(0));
+                }
+                outStream << line + "\n";
+            }
+
+            file.close();
+
+            ui->saveWidget->hide();
         }
-
-
-
-        for (int y=0; y<mapState.length();y++)
+        else
         {
-            line.clear();
-            for (int x=0;x<mapState.at(y).length();x++)
-            {
-                line.append(QString::number(mapState.at(y).at(x)));
-            }
-            outStream << line + "\n";
-
+            QMessageBox::critical(this, "Erreur", "Un fichier existe déjà avec ce nom.");
         }
-
-        for(int y= 0;y<5;y++)
-        {
-            line.clear();
-            for(int x=0;x<mapState.at(0).length();x++)
-            {
-                if (y>2)
-                line.append(QString::number(6));
-                else
-                line.append(QString::number(0));
-            }
-            outStream << line + "\n";
-        }
-        file.close();
     }
     else
     {
-        QMessageBox::critical(this,"Erreur", "Vous devez remplir un nom de fichie");
+        QMessageBox::critical(this,"Erreur", "Vous devez renseigner un nom de fichier.");
     }
-    ui->saveWidget->hide();
 }
 
 void mapEditor::on_openMapFile_clicked()
@@ -551,4 +567,9 @@ void mapEditor::on_cancelLoadMapButton_clicked()
 {
     ui->loadMapWidget->hide();
     ui->fileList->clear();
+}
+
+void mapEditor::on_newMapButton_clicked()
+{
+    drawLines();
 }

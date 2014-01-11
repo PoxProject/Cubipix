@@ -522,7 +522,6 @@ QPushButton:pressed {
        <string notr="true">QGroupBox {
 	border: 1px solid gray;
 	border-radius: 2px;
-	margin-top: 1ex;
 	background-color: rgba(0, 0, 0, 200);
  }
  
