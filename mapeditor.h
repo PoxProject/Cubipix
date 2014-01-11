@@ -50,11 +50,11 @@ private slots:
 
     void on_ValidButton_clicked();
 
-    void on_pushButton_clicked();
-
     void on_loadMapButton_clicked();
 
     void on_cancelLoadMapButton_clicked();
+
+    void on_openMapFile_clicked();
 
 private:
     Ui::mapEditor *ui;

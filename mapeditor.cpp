@@ -52,6 +52,7 @@ void mapEditor::resizeEvent(QResizeEvent *event)
 void mapEditor::mouseMoveEvent( QMouseEvent *event )
 {
     qDebug() << "testTrac";
+
   //  qDebug() << "mouse" << checkedBlock << event->pos().x() << event->pos().y() << event->pos().x()/32 << event->pos().y()/32;
   //  int x = event->pos().x()/32, y = event->pos().y()/32;
 
@@ -416,7 +417,7 @@ void mapEditor::on_ValidButton_clicked()
     }
 }
 
-void mapEditor::on_pushButton_clicked()
+void mapEditor::on_openMapFile_clicked()
 {
     QDir recoredDir("customMaps");
     recoredDir.setFilter(QDir::Files | QDir::NoSymLinks);
