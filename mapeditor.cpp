@@ -415,6 +415,7 @@ void mapEditor::on_ValidButton_clicked()
     {
         QMessageBox::critical(this,"Erreur", "Vous devez remplir un nom de fichie");
     }
+    ui->saveWidget->hide();
 }
 
 void mapEditor::on_openMapFile_clicked()
