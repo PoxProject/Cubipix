@@ -20,6 +20,9 @@ mapEditor::mapEditor(QWidget *parent) :
     ui->loadingWidget->setGeometry(0,0, this->width(),this->height());
     ui->loading->setGeometry((this->width()/2)-(ui->groupSaveWidget->width()/2),(this->height()/2)-(ui->groupSaveWidget->height()/2), ui->groupSaveWidget->width(),ui->groupSaveWidget->height());
     ui->loadingWidget->show();
+    ui->loadMapWidget->setGeometry(0,0, this->width(),this->height());
+    ui->loadMap->setGeometry((this->width()/2)-(ui->loadMap->width()/2),(this->height()/2)-(ui->loadMap->height()/2), ui->loadMap->width(),ui->loadMap->height());
+    ui->loadMapWidget->hide();
     //drawLines();
 }
 
@@ -31,12 +34,18 @@ mapEditor::~mapEditor()
 void mapEditor::resizeEvent(QResizeEvent *event)
 {
     ui->mapEditorGraphicsView->setGeometry(0,0,this->width(),this->height());
+
     ui->widget->setGeometry((this->width()/2)-(ui->widget->width()/2),0,ui->widget->width(),ui->widget->height());
+
     ui->saveWidget->setGeometry(0,0, this->width(),this->height());
     ui->groupSaveWidget->setGeometry((this->width()/2)-(ui->groupSaveWidget->width()/2),(this->height()/2)-(ui->groupSaveWidget->height()/2), ui->groupSaveWidget->width(),ui->groupSaveWidget->height());
+
     ui->loadingWidget->setGeometry(0,0, this->width(),this->height());
     ui->loading->setGeometry((this->width()/2)-(ui->groupSaveWidget->width()/2),(this->height()/2)-(ui->groupSaveWidget->height()/2), ui->groupSaveWidget->width(),ui->groupSaveWidget->height());
-    //drawLines();
+
+    ui->loadMapWidget->setGeometry(0,0, this->width(),this->height());
+    ui->loadMap->setGeometry((this->width()/2)-(ui->loadMap->width()/2),(this->height()/2)-(ui->loadMap->height()/2), ui->loadMap->width(),ui->loadMap->height());
+
 
 }
 
@@ -405,4 +414,139 @@ void mapEditor::on_ValidButton_clicked()
     {
         QMessageBox::critical(this,"Erreur", "Vous devez remplir un nom de fichie");
     }
+}
+
+void mapEditor::on_pushButton_clicked()
+{
+    QDir recoredDir("customMaps");
+    recoredDir.setFilter(QDir::Files | QDir::NoSymLinks);
+    QStringList listFilters;
+    listFilters << "*.map";
+    recoredDir.setNameFilters(listFilters);
+    QFileInfoList list = recoredDir.entryInfoList();
+    for (int i=0;i<list.length();i++)
+    {
+        QFileInfo info = list.at(i);
+        ui->fileList->addItem(info.fileName());
+    }
+    ui->loadMapWidget->show();
+}
+
+void mapEditor::on_loadMapButton_clicked()
+{
+    scene->clear();
+    drawLines();
+
+    QString filename = ui->fileList->currentItem()->text(), path = "customMaps/"+filename;
+    ui->loadMapWidget->hide();
+    ui->fileList->clear();
+    qDebug() << filename;
+    ui->FileNameLineEdit->setText(QFileInfo(path).baseName());
+    QFile inputFile(path);
+    if(inputFile.open(QIODevice::ReadOnly) && inputFile.exists())
+    {
+        QGraphicsItem *item;
+        QGraphicsProxyWidget *proxyWidgetItem;
+        QLabel *label;
+
+        QMovie *lavaMovie = new QMovie(":/files/images/textures/lava.gif");
+        QMovie *endMovie = new QMovie(":/files/images/textures/end.gif");
+
+        QPixmap cloud(":/files/images/textures/cloud.png");
+        QPixmap grass(":/files/images/textures/grass.png");
+        QPixmap dirt(":/files/images/textures/dirt.png");
+        QPixmap brick(":/files/images/textures/brick.png");
+        QPixmap spawn(":/files/images/textures/spawn.jpg");
+        QList<int> temp;
+        int numberLineTotal = 0;
+
+        QTextStream in(&inputFile);
+        mapState.clear();
+
+        while (!in.atEnd())
+        {
+            in.readLine();
+            numberLineTotal++;
+        }
+        in.seek(0);
+        // 5 ligne lue dans le vide
+        in.readLine();in.readLine();in.readLine();in.readLine();in.readLine();
+        for (int y=0;y<(numberLineTotal-10);y++)
+        {
+
+           QString line = in.readLine();
+           qDebug() << line << " " << line.length();
+
+           for(int i =0;i<line.length();i++)
+           {
+               switch (QString(line.at(i)).toInt())
+               {
+               case 1:
+                   item = scene->addPixmap(grass);
+                   item->setPos(i * pixelMap, y * pixelMap);
+                   temp.append(1);
+                   break;
+               case 2:
+                   item = scene->addPixmap(dirt);
+                   item->setPos(i * pixelMap, y * pixelMap);
+                   temp.append(2);
+                   break;
+               case 3:
+                   item = scene->addPixmap(brick);
+                   item->setPos(i * pixelMap, y * pixelMap);
+                   temp.append(3);
+                   break;
+               case 4:
+                   item = scene->addPixmap(spawn);
+                   item->setPos(i * pixelMap, y * pixelMap);
+                   temp.append(4);
+                   break;
+               case 6:
+                   qDebug() << "lava";
+
+                   label = new QLabel();
+                   label->setMovie(lavaMovie);
+
+                   lavaMovie->start();
+
+                   proxyWidgetItem = scene->addWidget(label);
+                   proxyWidgetItem->setPos(i * pixelMap, y * pixelMap);
+                   temp.append(6);
+                   break;
+               case 7:
+                   qDebug() << "end";
+
+                   label = new QLabel();
+                   label->setMovie(endMovie);
+
+                   endMovie->start();
+
+                   proxyWidgetItem = scene->addWidget(label);
+                   proxyWidgetItem->setPos(i * pixelMap, (y * pixelMap) - 64);
+                   temp.append(7);
+                   break;
+               case 8:
+                   item = scene->addPixmap(cloud);
+                   item->setPos(i * pixelMap, y * pixelMap);
+                   temp.append(8);
+                   break;
+               default:
+                   temp.append(0);
+                   break;
+               }
+
+           }
+           mapState.append(temp);
+           temp.clear();
+        }
+        inputFile.close();
+
+    }
+
+}
+
+void mapEditor::on_cancelLoadMapButton_clicked()
+{
+    ui->loadMapWidget->hide();
+    ui->fileList->clear();
 }
