@@ -9,6 +9,10 @@
 #include <QDebug>
 #include <QMouseEvent>
 #include <QGraphicsProxyWidget>
+#include <QDir>
+#include <QFile>
+#include <QMessageBox>
+#include <QTimer>
 
 namespace Ui {
 class mapEditor;
@@ -24,6 +28,8 @@ public:
 
 private slots:
 
+    void drawLines();
+
     void on_spawnButton_clicked();
 
     void on_lavaButton_clicked();
@@ -38,11 +44,11 @@ private slots:
 
     void on_brickButton_clicked();
 
-    void on_pushButton_clicked();
-
     void on_saveButton_clicked();
 
     void on_cancelButton_clicked();
+
+    void on_ValidButton_clicked();
 
 private:
     Ui::mapEditor *ui;
@@ -52,7 +58,6 @@ private:
     void resizeEvent(QResizeEvent *event);
     void mouseMoveEvent( QMouseEvent* event );
     void mousePressEvent(QMouseEvent* event);
-    void drawLines();
 
     QList<QList<int> > mapState;
 

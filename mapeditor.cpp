@@ -16,7 +16,10 @@ mapEditor::mapEditor(QWidget *parent) :
     ui->mapEditorGraphicsView->setScene(scene);
     ui->widget->setGeometry((this->width()/2)-(ui->widget->width()/2),0,ui->widget->width(),ui->widget->height());
     ui->saveWidget->hide();
-
+    QTimer::singleShot(50,this,SLOT(drawLines()));
+    ui->loadingWidget->setGeometry(0,0, this->width(),this->height());
+    ui->loading->setGeometry((this->width()/2)-(ui->groupSaveWidget->width()/2),(this->height()/2)-(ui->groupSaveWidget->height()/2), ui->groupSaveWidget->width(),ui->groupSaveWidget->height());
+    ui->loadingWidget->show();
     //drawLines();
 }
 
@@ -31,7 +34,8 @@ void mapEditor::resizeEvent(QResizeEvent *event)
     ui->widget->setGeometry((this->width()/2)-(ui->widget->width()/2),0,ui->widget->width(),ui->widget->height());
     ui->saveWidget->setGeometry(0,0, this->width(),this->height());
     ui->groupSaveWidget->setGeometry((this->width()/2)-(ui->groupSaveWidget->width()/2),(this->height()/2)-(ui->groupSaveWidget->height()/2), ui->groupSaveWidget->width(),ui->groupSaveWidget->height());
-
+    ui->loadingWidget->setGeometry(0,0, this->width(),this->height());
+    ui->loading->setGeometry((this->width()/2)-(ui->groupSaveWidget->width()/2),(this->height()/2)-(ui->groupSaveWidget->height()/2), ui->groupSaveWidget->width(),ui->groupSaveWidget->height());
     //drawLines();
 
 }
@@ -313,9 +317,8 @@ void mapEditor::on_brickButton_clicked()
 void mapEditor::drawLines()
 {
     qDebug() << "test1";
-
+    ui->loadingWidget->hide();
     //scene->clear();
-
     QPixmap backgoundGrilleR(":/files/images/textures/backgroundEditor.png");
     QList<int> temp ;
 
@@ -337,11 +340,6 @@ void mapEditor::drawLines()
 
 }
 
-void mapEditor::on_pushButton_clicked()
-{
-    drawLines();
-}
-
 void mapEditor::on_saveButton_clicked()
 {
     ui->saveWidget->show();
@@ -350,4 +348,61 @@ void mapEditor::on_saveButton_clicked()
 void mapEditor::on_cancelButton_clicked()
 {
     ui->saveWidget->hide();
+}
+
+void mapEditor::on_ValidButton_clicked()
+{
+    if (!QFile::exists("customMaps"))
+    {
+        QDir().mkdir("customMaps");
+    }
+    if (ui->FileNameLineEdit->text() != "")
+    {
+        QString temporyFileName = ui->FileNameLineEdit->text() + ".map";
+        QFile file("customMaps/"+temporyFileName);
+        QString line ;
+        file.open(QIODevice::WriteOnly);
+        QTextStream outStream(&file);
+
+        for(int y= 0;y<5;y++)
+        {
+            line.clear();
+            for(int x=0;x<mapState.at(0).length();x++)
+            {
+                line.append(QString::number(0));
+            }
+            outStream << line + "\n";
+        }
+
+
+
+        for (int y=0; y<mapState.length();y++)
+        {
+            line.clear();
+            for (int x=0;x<mapState.at(y).length();x++)
+            {
+                line.append(QString::number(mapState.at(y).at(x)));
+            }
+            outStream << line + "\n";
+
+        }
+
+        for(int y= 0;y<5;y++)
+        {
+            line.clear();
+            for(int x=0;x<mapState.at(0).length();x++)
+            {
+                if (y>2)
+                line.append(QString::number(6));
+                else
+                line.append(QString::number(0));
+            }
+            outStream << line + "\n";
+        }
+        file.close();
+    }
+    else
+    {
+        QMessageBox::critical(this,"Erreur", "Vous devez remplir un nom de fichie");
+    }
 }

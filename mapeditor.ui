@@ -48,26 +48,41 @@
    <widget class="QWidget" name="widget" native="true">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>320</y>
-      <width>791</width>
-      <height>31</height>
+      <x>180</x>
+      <y>270</y>
+      <width>431</width>
+      <height>51</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QWidget {
+	background-color: rgba(0, 0, 0, 50);
+}</string>
     </property>
     <widget class="QPushButton" name="dirtButton">
      <property name="geometry">
       <rect>
-       <x>80</x>
-       <y>0</y>
-       <width>75</width>
-       <height>23</height>
+       <x>10</x>
+       <y>10</y>
+       <width>31</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="autoFillBackground">
       <bool>false</bool>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	border: 1px solid rgb(0, 0, 0);
+	background-image: url(:/files/images/textures/dirt.png);
+}
+
+QPushButton::checked {
+	border: 1px solid rgb(70, 255, 215);
+}</string>
+     </property>
      <property name="text">
-      <string>Terre</string>
+      <string/>
      </property>
      <property name="checkable">
       <bool>true</bool>
@@ -85,17 +100,27 @@
     <widget class="QPushButton" name="spawnButton">
      <property name="geometry">
       <rect>
-       <x>400</x>
-       <y>0</y>
-       <width>75</width>
-       <height>23</height>
+       <x>270</x>
+       <y>10</y>
+       <width>31</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="autoFillBackground">
       <bool>false</bool>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	border: 1px solid rgb(0, 0, 0);
+	background-image: url(:/files/images/textures/spawn.jpg);
+}
+
+QPushButton::checked {
+	border: 1px solid rgb(70, 255, 215);
+}</string>
+     </property>
      <property name="text">
-      <string>Spawn</string>
+      <string/>
      </property>
      <property name="checkable">
       <bool>true</bool>
@@ -113,17 +138,27 @@
     <widget class="QPushButton" name="cloudButton">
      <property name="geometry">
       <rect>
-       <x>240</x>
-       <y>0</y>
-       <width>75</width>
-       <height>23</height>
+       <x>210</x>
+       <y>10</y>
+       <width>31</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="autoFillBackground">
       <bool>false</bool>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	border: 1px solid rgb(0, 0, 0);
+	background-image: url(:/files/images/textures/cloud.png);
+}
+
+QPushButton::checked {
+	border: 1px solid rgb(70, 255, 215);
+}</string>
+     </property>
      <property name="text">
-      <string>nuage</string>
+      <string/>
      </property>
      <property name="checkable">
       <bool>true</bool>
@@ -142,16 +177,26 @@
      <property name="geometry">
       <rect>
        <x>160</x>
-       <y>0</y>
-       <width>75</width>
-       <height>23</height>
+       <y>10</y>
+       <width>31</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="autoFillBackground">
       <bool>false</bool>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	border: 1px solid rgb(0, 0, 0);
+	background-image: url(:/files/images/textures/lava.gif);
+}
+
+QPushButton::checked {
+	border: 1px solid rgb(70, 255, 215);
+}</string>
+     </property>
      <property name="text">
-      <string>Lave</string>
+      <string/>
      </property>
      <property name="checkable">
       <bool>true</bool>
@@ -169,17 +214,27 @@
     <widget class="QPushButton" name="brickButton">
      <property name="geometry">
       <rect>
-       <x>320</x>
-       <y>0</y>
-       <width>75</width>
-       <height>23</height>
+       <x>110</x>
+       <y>10</y>
+       <width>31</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="autoFillBackground">
       <bool>false</bool>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	border: 1px solid rgb(0, 0, 0);
+	background-image: url(:/files/images/textures/brick.png);
+}
+
+QPushButton::checked {
+	border: 1px solid rgb(70, 255, 215);
+}</string>
+     </property>
      <property name="text">
-      <string>brique</string>
+      <string/>
      </property>
      <property name="checkable">
       <bool>true</bool>
@@ -197,17 +252,27 @@
     <widget class="QPushButton" name="endLevelButton">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>75</width>
-       <height>23</height>
+       <x>320</x>
+       <y>10</y>
+       <width>31</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="autoFillBackground">
       <bool>false</bool>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	border: 1px solid rgb(0, 0, 0);
+	background-image: url(:/files/images/textures/end.gif);
+}
+
+QPushButton::checked {
+	border: 1px solid rgb(70, 255, 215);
+}</string>
+     </property>
      <property name="text">
-      <string>Fin niveau</string>
+      <string/>
      </property>
      <property name="checkable">
       <bool>true</bool>
@@ -225,17 +290,27 @@
     <widget class="QPushButton" name="grassButton">
      <property name="geometry">
       <rect>
-       <x>480</x>
-       <y>0</y>
-       <width>75</width>
-       <height>23</height>
+       <x>60</x>
+       <y>10</y>
+       <width>31</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="autoFillBackground">
       <bool>false</bool>
      </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	border: 1px solid rgb(0, 0, 0);
+	background-image: url(:/files/images/textures/grass.png);
+}
+
+QPushButton::checked {
+	border: 1px solid rgb(70, 255, 215);
+}</string>
+     </property>
      <property name="text">
-      <string>herbe</string>
+      <string/>
      </property>
      <property name="checkable">
       <bool>true</bool>
@@ -250,26 +325,13 @@
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton">
-     <property name="geometry">
-      <rect>
-       <x>560</x>
-       <y>0</y>
-       <width>75</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>init</string>
-     </property>
-    </widget>
     <widget class="QPushButton" name="saveButton">
      <property name="geometry">
       <rect>
-       <x>640</x>
-       <y>0</y>
-       <width>75</width>
-       <height>23</height>
+       <x>390</x>
+       <y>10</y>
+       <width>31</width>
+       <height>31</height>
       </rect>
      </property>
      <property name="text">
@@ -280,8 +342,8 @@
    <widget class="QWidget" name="saveWidget" native="true">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>0</y>
+      <x>-10</x>
+      <y>10</y>
       <width>711</width>
       <height>441</height>
      </rect>
@@ -372,6 +434,63 @@ QPushButton:pressed {
       </property>
       <property name="text">
        <string>Annuler</string>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="loadingWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>711</width>
+      <height>441</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QWidget {
+	background-color: rgba(0, 0, 0, 100);
+}</string>
+    </property>
+    <widget class="QWidget" name="loading" native="true">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>100</y>
+       <width>291</width>
+       <height>211</height>
+      </rect>
+     </property>
+     <widget class="QLabel" name="label_3">
+      <property name="geometry">
+       <rect>
+        <x>140</x>
+        <y>100</y>
+        <width>131</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Chargement en cour...</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_4">
+      <property name="geometry">
+       <rect>
+        <x>80</x>
+        <y>100</y>
+        <width>46</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>TextLabel</string>
       </property>
      </widget>
     </widget>
