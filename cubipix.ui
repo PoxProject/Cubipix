@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1201</width>
-    <height>530</height>
+    <height>943</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -55,7 +55,7 @@ QLabel {
     <widget class="QLabel" name="titleGameLabel">
      <property name="geometry">
       <rect>
-       <x>350</x>
+       <x>360</x>
        <y>20</y>
        <width>121</width>
        <height>71</height>
@@ -145,7 +145,7 @@ QPushButton:pressed {
        <string>Editeur de map</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_3">
+     <widget class="QPushButton" name="settingsButton">
       <property name="geometry">
        <rect>
         <x>10</x>
@@ -158,7 +158,7 @@ QPushButton:pressed {
        <string>Options</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_4">
+     <widget class="QPushButton" name="aboutButton">
       <property name="geometry">
        <rect>
         <x>10</x>

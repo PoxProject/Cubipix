@@ -897,3 +897,15 @@ void Cubipix::on_continuerResultButton_clicked()
 {
     on_exitGameButton_clicked();
 }
+
+void Cubipix::on_settingsButton_clicked()
+{
+    CubipixSettings *settings = new CubipixSettings();
+    settings->show();
+}
+
+void Cubipix::on_aboutButton_clicked()
+{
+    CubipixAbout *about = new CubipixAbout();
+    about->show();
+}

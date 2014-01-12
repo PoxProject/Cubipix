@@ -2,6 +2,8 @@
 #define CUBIPIX_H
 
 #include "map.h"
+#include "cubipixsettings.h"
+#include "cubipixabout.h"
 #include <QMainWindow>
 #include <QKeyEvent>
 #include <QGridLayout>
@@ -91,6 +93,10 @@ private slots:
     void on_exitGameButton_clicked();
 
     void on_continuerResultButton_clicked();
+
+    void on_settingsButton_clicked();
+
+    void on_aboutButton_clicked();
 
 private:
     Ui::Cubipix *ui;

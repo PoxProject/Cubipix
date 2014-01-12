@@ -7,7 +7,7 @@ mapEditor::mapEditor(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    setWindowTitle(QString("Editeur de map - Cubipix"));
+    setWindowTitle(QString("Cubipix - Editeur de map"));
 
    // this->setMouseTracking(true);
     pixelMap = 32;
