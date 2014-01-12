@@ -15,12 +15,12 @@
         <file>files/images/textures/lava.gif</file>
         <file>files/images/textures/end.gif</file>
         <file>files/images/textures/background.png</file>
-        <file>files/images/background.png</file>
         <file>files/images/skins/skin1-walkLeft.gif</file>
         <file>files/images/skins/skin1-walkRight.gif</file>
         <file>files/images/textures/backgroundEditor.png</file>
         <file>files/images/icons/new.png</file>
         <file>files/images/icons/open.png</file>
         <file>files/images/icons/save.png</file>
+        <file>files/images/background.jpg</file>
     </qresource>
 </RCC>

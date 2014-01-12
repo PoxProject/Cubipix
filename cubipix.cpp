@@ -6,6 +6,19 @@ Cubipix::Cubipix(QWidget *parent) :
     ui(new Ui::Cubipix)
 {
     ui->setupUi(this);
+
+    ui->homeWidget->setGeometry(0, 0, this->width(), this->height());
+    ui->customLevelWidget->setGeometry(0, 0, this->width(), this->height());
+    ui->levelsWidget->setGeometry(0, 0, this->width(), this->height());
+    ui->gameWidget->setGeometry(0, 0, this->width(), this->height());
+    ui->multiplayerModeWidget->setGeometry(0, 0, this->width(), this->height());
+    ui->multiplayerPartsWidget->setGeometry(0, 0, this->width(), this->height());
+    ui->exitGameWidget->setGeometry(0, 0, this->width(), this->height());
+    ui->finishPartWidget->setGeometry(0, 0, this->width(), this->height());
+
+    ui->titleGameLabel->move((this->width() / 2) - ui->titleGameLabel->width(), (this->width() / 2) - 550);
+    ui->homeButtonsWidget->move((this->width() / 2) - ui->homeButtonsWidget->width(), (this->width() / 2) - 400);
+
     ui->customLevelWidget->hide();
     ui->levelsWidget->hide();
     ui->gameWidget->hide();
@@ -215,11 +228,20 @@ void Cubipix::resizeEvent(QResizeEvent *event)
 {
     QMainWindow::resizeEvent(event);
 
-    ui->gameWidget->resize(this->width(), this->height());
-    ui->mapView->resize(this->width(), this->height());
-    ui->exitGameWidget->resize(this->width(), this->height());
-    ui->finishPartWidget->resize(this->width(), this->height());
+    ui->homeWidget->setGeometry(0, 0, this->width(), this->height());
+    ui->customLevelWidget->setGeometry(0, 0, this->width(), this->height());
+    ui->levelsWidget->setGeometry(0, 0, this->width(), this->height());
+    ui->gameWidget->setGeometry(0, 0, this->width(), this->height());
+    ui->mapView->setGeometry(0, 0, this->width(), this->height());
+    ui->multiplayerModeWidget->setGeometry(0, 0, this->width(), this->height());
+    ui->multiplayerPartsWidget->setGeometry(0, 0, this->width(), this->height());
+    ui->exitGameWidget->setGeometry(0, 0, this->width(), this->height());
+    ui->finishPartWidget->setGeometry(0, 0, this->width(), this->height());
 
+    ui->titleGameLabel->move((this->width() / 2) - ui->titleGameLabel->width(), (this->height() / 2) - 220);
+    ui->homeButtonsWidget->move((this->width() / 2) - (ui->homeButtonsWidget->width() - 38), (this->height() / 2) - 100);
+
+    //exitGameWidget
     ui->backGameButton->move(((this->width() / 2) - 111), (this->height() / 2) - 140);
     ui->settingsGameButton->move(((this->width() / 2) - 111), (this->height() / 2) - 60);
     ui->exitGameButton->move(((this->width() / 2) - 111), this->height() / 2);

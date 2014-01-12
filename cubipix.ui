@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1201</width>
-    <height>1168</height>
+    <height>530</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QMainWindow {
-	background-image: url(:/files/images/background.png);
+	background-image: url(:/files/images/background.jpg);
 }
 
 QPushButton {
@@ -36,26 +36,36 @@ QPushButton:pressed {
    <widget class="QWidget" name="homeWidget" native="true">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>40</y>
+      <x>50</x>
+      <y>540</y>
       <width>941</width>
       <height>491</height>
      </rect>
     </property>
-    <widget class="QLabel" name="label">
+    <property name="styleSheet">
+     <string notr="true">QWidget {
+	background-color: rgba(255, 255, 255, 100);
+}
+
+QLabel {
+	color: white;
+	background-color: rgba(0, 0, 0, 0);
+}</string>
+    </property>
+    <widget class="QLabel" name="titleGameLabel">
      <property name="geometry">
       <rect>
-       <x>270</x>
-       <y>10</y>
-       <width>151</width>
+       <x>350</x>
+       <y>20</y>
+       <width>121</width>
        <height>71</height>
       </rect>
      </property>
      <property name="font">
       <font>
-       <pointsize>24</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
+       <pointsize>28</pointsize>
+       <weight>50</weight>
+       <bold>false</bold>
       </font>
      </property>
      <property name="styleSheet">
@@ -65,80 +75,109 @@ QPushButton:pressed {
       <string>Cubipix</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="playLevelButton">
+    <widget class="QWidget" name="homeButtonsWidget" native="true">
      <property name="geometry">
       <rect>
-       <x>260</x>
-       <y>120</y>
-       <width>171</width>
-       <height>41</height>
+       <x>330</x>
+       <y>130</y>
+       <width>191</width>
+       <height>301</height>
       </rect>
      </property>
      <property name="styleSheet">
-      <string notr="true"/>
+      <string notr="true">QWidget {
+	background-color: rgba(0, 0, 0, 0);
+}
+
+QPushButton {
+	border: 1px solid rgb(85, 85, 85);
+	border-radius: 10px;
+	background-color: rgb(161, 210, 255);
+}
+
+QPushButton:hover {
+	background-color: rgb(130, 174, 255);
+}
+
+QPushButton:pressed {
+	background-color: rgb(85, 125, 255);
+}</string>
      </property>
-     <property name="text">
-      <string>Jouer</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="multiplayerButton">
-     <property name="geometry">
-      <rect>
-       <x>260</x>
-       <y>180</y>
-       <width>171</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Multiplayer</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_3">
-     <property name="geometry">
-      <rect>
-       <x>260</x>
-       <y>300</y>
-       <width>171</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Options</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_4">
-     <property name="geometry">
-      <rect>
-       <x>260</x>
-       <y>360</y>
-       <width>171</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>A Propos</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="mapEditorButton">
-     <property name="geometry">
-      <rect>
-       <x>260</x>
-       <y>240</y>
-       <width>171</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Editeur de map</string>
-     </property>
+     <widget class="QPushButton" name="playLevelButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>171</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="text">
+       <string>Jouer</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="multiplayerButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>60</y>
+        <width>171</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Multiplayer</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="mapEditorButton">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>130</y>
+        <width>171</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Editeur de map</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_3">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>200</y>
+        <width>171</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Options</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton_4">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>250</y>
+        <width>171</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>A Propos</string>
+      </property>
+     </widget>
     </widget>
    </widget>
    <widget class="QWidget" name="levelsWidget" native="true">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>550</y>
+      <x>20</x>
+      <y>20</y>
       <width>941</width>
       <height>491</height>
      </rect>
