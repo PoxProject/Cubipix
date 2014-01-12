@@ -33,6 +33,15 @@ bool Map::playLevel(int numberLevel)
     return generateMap(mapName);
 }
 
+bool Map::playCustomLevel(QString levelName)
+{
+    QString mapName = "customMaps/" + levelName;
+
+    initMap();
+
+    return generateMap(mapName);
+}
+
 void Map::randomLevel()
 {
 

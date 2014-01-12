@@ -436,6 +436,8 @@ void mapEditor::on_ValidButton_clicked()
 
 void mapEditor::on_openMapFile_clicked()
 {
+    ui->fileList->clear();
+
     QDir recoredDir("customMaps");
     recoredDir.setFilter(QDir::Files | QDir::NoSymLinks);
     QStringList listFilters;
@@ -452,115 +454,122 @@ void mapEditor::on_openMapFile_clicked()
 
 void mapEditor::on_loadMapButton_clicked()
 {
-    scene->clear();
-    drawLines();
-
-    QString filename = ui->fileList->currentItem()->text(), path = "customMaps/"+filename;
-    ui->loadMapWidget->hide();
-    ui->fileList->clear();
-    qDebug() << filename;
-    ui->FileNameLineEdit->setText(QFileInfo(path).baseName());
-    QFile inputFile(path);
-    if(inputFile.open(QIODevice::ReadOnly) && inputFile.exists())
+    if(ui->fileList->currentItem()->text() != "")
     {
-        QGraphicsItem *item;
-        QGraphicsProxyWidget *proxyWidgetItem;
-        QLabel *label;
+        scene->clear();
+        drawLines();
 
-        QMovie *lavaMovie = new QMovie(":/files/images/textures/lava.gif");
-        QMovie *endMovie = new QMovie(":/files/images/textures/end.gif");
+        QString filename = ui->fileList->currentItem()->text(), path = "customMaps/"+filename;
+        ui->loadMapWidget->hide();
+        ui->fileList->clear();
+        qDebug() << filename;
+        ui->FileNameLineEdit->setText(QFileInfo(path).baseName());
+        QFile inputFile(path);
 
-        QPixmap cloud(":/files/images/textures/cloud.png");
-        QPixmap grass(":/files/images/textures/grass.png");
-        QPixmap dirt(":/files/images/textures/dirt.png");
-        QPixmap brick(":/files/images/textures/brick.png");
-        QPixmap spawn(":/files/images/textures/spawn.jpg");
-        QList<int> temp;
-        int numberLineTotal = 0;
-
-        QTextStream in(&inputFile);
-        mapState.clear();
-
-        while (!in.atEnd())
+        if(inputFile.open(QIODevice::ReadOnly) && inputFile.exists())
         {
-            in.readLine();
-            numberLineTotal++;
-        }
-        in.seek(0);
-        // 5 ligne lue dans le vide
-        in.readLine();in.readLine();in.readLine();in.readLine();in.readLine();
-        for (int y=0;y<(numberLineTotal-10);y++)
-        {
+            QGraphicsItem *item;
+            QGraphicsProxyWidget *proxyWidgetItem;
+            QLabel *label;
 
-           QString line = in.readLine();
-           qDebug() << line << " " << line.length();
+            QMovie *lavaMovie = new QMovie(":/files/images/textures/lava.gif");
+            QMovie *endMovie = new QMovie(":/files/images/textures/end.gif");
 
-           for(int i =0;i<line.length();i++)
-           {
-               switch (QString(line.at(i)).toInt())
+            QPixmap cloud(":/files/images/textures/cloud.png");
+            QPixmap grass(":/files/images/textures/grass.png");
+            QPixmap dirt(":/files/images/textures/dirt.png");
+            QPixmap brick(":/files/images/textures/brick.png");
+            QPixmap spawn(":/files/images/textures/spawn.jpg");
+            QList<int> temp;
+            int numberLineTotal = 0;
+
+            QTextStream in(&inputFile);
+            mapState.clear();
+
+            while (!in.atEnd())
+            {
+                in.readLine();
+                numberLineTotal++;
+            }
+            in.seek(0);
+            // 5 ligne lue dans le vide
+            in.readLine();in.readLine();in.readLine();in.readLine();in.readLine();
+            for (int y=0;y<(numberLineTotal-10);y++)
+            {
+
+               QString line = in.readLine();
+               qDebug() << line << " " << line.length();
+
+               for(int i =0;i<line.length();i++)
                {
-               case 1:
-                   item = scene->addPixmap(grass);
-                   item->setPos(i * pixelMap, y * pixelMap);
-                   temp.append(1);
-                   break;
-               case 2:
-                   item = scene->addPixmap(dirt);
-                   item->setPos(i * pixelMap, y * pixelMap);
-                   temp.append(2);
-                   break;
-               case 3:
-                   item = scene->addPixmap(brick);
-                   item->setPos(i * pixelMap, y * pixelMap);
-                   temp.append(3);
-                   break;
-               case 4:
-                   item = scene->addPixmap(spawn);
-                   item->setPos(i * pixelMap, y * pixelMap);
-                   temp.append(4);
-                   break;
-               case 6:
-                   qDebug() << "lava";
+                   switch (QString(line.at(i)).toInt())
+                   {
+                   case 1:
+                       item = scene->addPixmap(grass);
+                       item->setPos(i * pixelMap, y * pixelMap);
+                       temp.append(1);
+                       break;
+                   case 2:
+                       item = scene->addPixmap(dirt);
+                       item->setPos(i * pixelMap, y * pixelMap);
+                       temp.append(2);
+                       break;
+                   case 3:
+                       item = scene->addPixmap(brick);
+                       item->setPos(i * pixelMap, y * pixelMap);
+                       temp.append(3);
+                       break;
+                   case 4:
+                       item = scene->addPixmap(spawn);
+                       item->setPos(i * pixelMap, y * pixelMap);
+                       temp.append(4);
+                       break;
+                   case 6:
+                       qDebug() << "lava";
 
-                   label = new QLabel();
-                   label->setMovie(lavaMovie);
+                       label = new QLabel();
+                       label->setMovie(lavaMovie);
 
-                   lavaMovie->start();
+                       lavaMovie->start();
 
-                   proxyWidgetItem = scene->addWidget(label);
-                   proxyWidgetItem->setPos(i * pixelMap, y * pixelMap);
-                   temp.append(6);
-                   break;
-               case 7:
-                   qDebug() << "end";
+                       proxyWidgetItem = scene->addWidget(label);
+                       proxyWidgetItem->setPos(i * pixelMap, y * pixelMap);
+                       temp.append(6);
+                       break;
+                   case 7:
+                       qDebug() << "end";
 
-                   label = new QLabel();
-                   label->setMovie(endMovie);
+                       label = new QLabel();
+                       label->setMovie(endMovie);
 
-                   endMovie->start();
+                       endMovie->start();
 
-                   proxyWidgetItem = scene->addWidget(label);
-                   proxyWidgetItem->setPos(i * pixelMap, (y * pixelMap) - 64);
-                   temp.append(7);
-                   break;
-               case 8:
-                   item = scene->addPixmap(cloud);
-                   item->setPos(i * pixelMap, y * pixelMap);
-                   temp.append(8);
-                   break;
-               default:
-                   temp.append(0);
-                   break;
+                       proxyWidgetItem = scene->addWidget(label);
+                       proxyWidgetItem->setPos(i * pixelMap, (y * pixelMap) - 64);
+                       temp.append(7);
+                       break;
+                   case 8:
+                       item = scene->addPixmap(cloud);
+                       item->setPos(i * pixelMap, y * pixelMap);
+                       temp.append(8);
+                       break;
+                   default:
+                       temp.append(0);
+                       break;
+                   }
                }
 
-           }
-           mapState.append(temp);
-           temp.clear();
+               mapState.append(temp);
+               temp.clear();
+            }
+
+            inputFile.close();
         }
-        inputFile.close();
-
     }
-
+    else
+    {
+        QMessageBox::critical(this, "Erreur", "Aucune map n'a été séléctionnée.");
+    }
 }
 
 void mapEditor::on_cancelLoadMapButton_clicked()

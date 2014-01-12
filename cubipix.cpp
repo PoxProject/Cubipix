@@ -6,6 +6,7 @@ Cubipix::Cubipix(QWidget *parent) :
     ui(new Ui::Cubipix)
 {
     ui->setupUi(this);
+    ui->customLevelWidget->hide();
     ui->levelsWidget->hide();
     ui->gameWidget->hide();
     ui->multiplayerModeWidget->hide();
@@ -85,6 +86,81 @@ void Cubipix::on_backLevelsButton_clicked()
     ui->gameWidget->hide();
     ui->multiplayerModeWidget->hide();
     ui->homeWidget->show();
+}
+
+void Cubipix::on_customLevelButton_clicked()
+{
+    ui->customLevelListWidget->clear();
+
+    QDir dirCustomMaps("customMaps");
+    dirCustomMaps.setFilter(QDir::Files | QDir::NoSymLinks);
+
+    QStringList listFilters;
+    listFilters << "*.map";
+
+    dirCustomMaps.setNameFilters(listFilters);
+
+    QFileInfoList list = dirCustomMaps.entryInfoList();
+
+    for (int i=0;i<list.length();i++)
+    {
+        QFileInfo info = list.at(i);
+
+        ui->customLevelListWidget->addItem(info.fileName());
+    }
+
+    ui->customLevelWidget->show();
+}
+
+void Cubipix::on_playCustomLevelButton_clicked()
+{
+    if(ui->customLevelListWidget->currentItem()->text() != "")
+    {
+        Player *player = new Player(1, 1, "User", 1, 0, 0);
+
+        playersClass->clear();
+
+        playersClass->append(player);
+
+        map = new Map();
+
+        connect(map, SIGNAL(startMap(QGraphicsScene*)), this, SLOT(startMap(QGraphicsScene*)));
+        connect(map, SIGNAL(updateMap(QGraphicsScene*)), this, SLOT(updateMap(QGraphicsScene*)));
+        connect(map, SIGNAL(updateView(int,int)), this, SLOT(updateView(int,int)));
+        connect(map, SIGNAL(updateHealth(Player*)), this, SLOT(updateHealth(Player*)));
+        connect(map, SIGNAL(finishPart(Player*)), this, SLOT(finishPart(Player*)));
+
+        map->updateValueSizeMapView(this->width(), this->height());
+
+        if(map->playCustomLevel(ui->customLevelListWidget->currentItem()->text()))
+        {
+            map->spawnPlayer(playersClass->at(0));
+
+            ui->namePlayer1Label->setText(playersClass->at(0)->getUsername());
+            ui->healthPlayer1ProgressBar->setValue(playersClass->at(0)->getHealth());
+
+            ui->infoPlayer1Widget->show();
+
+            setListPlayers();
+
+            ui->homeWidget->hide();
+            ui->levelsWidget->hide();
+            ui->gameWidget->show();
+        }
+        else
+        {
+            QMessageBox::critical(this, "Erreur", "Une erreur s'est produite lors de la génération de la map. Réessayez ou contactez un administrateur.");
+        }
+    }
+    else
+    {
+        QMessageBox::critical(this, "Erreur", "Aucun niveau personnalisé n'a été séléctionné.");
+    }
+}
+
+void Cubipix::on_cancelCustomLevelButton_clicked()
+{
+    ui->customLevelWidget->hide();
 }
 
 void Cubipix::on_randomLevelButton_clicked()

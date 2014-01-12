@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1201</width>
-    <height>542</height>
+    <height>1168</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -137,8 +137,8 @@ QPushButton:pressed {
    <widget class="QWidget" name="levelsWidget" native="true">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>20</y>
+      <x>60</x>
+      <y>550</y>
       <width>941</width>
       <height>491</height>
      </rect>
@@ -160,7 +160,7 @@ QPushButton:pressed {
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>50</y>
+       <y>380</y>
        <width>921</width>
        <height>431</height>
       </rect>
@@ -214,6 +214,128 @@ QPushButton:pressed {
      <property name="text">
       <string>Retour</string>
      </property>
+    </widget>
+    <widget class="QPushButton" name="customLevelButton">
+     <property name="geometry">
+      <rect>
+       <x>550</x>
+       <y>10</y>
+       <width>131</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Niveau personnalisé</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="customLevelWidget" native="true">
+     <property name="geometry">
+      <rect>
+       <x>50</x>
+       <y>50</y>
+       <width>461</width>
+       <height>311</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QWidget {
+	background-color: rgba(0, 0, 0, 100);
+}</string>
+     </property>
+     <widget class="QWidget" name="innerCustomLevelWidget" native="true">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>20</y>
+        <width>291</width>
+        <height>261</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel {
+	color: white;
+	background-color: rgba(0, 0, 0, 0);
+}
+
+QListWidget {
+	color: white;
+	border: 1px solid gray;
+}
+
+QPushButton {
+	border: 1px solid rgb(85, 85, 85);
+	border-radius: 10px;
+	background-color: rgb(161, 210, 255);
+}
+
+QPushButton:hover {
+	background-color: rgb(130, 174, 255);
+}
+
+QPushButton:pressed {
+	background-color: rgb(85, 125, 255);
+}</string>
+      </property>
+      <widget class="QLabel" name="label_16">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>0</y>
+         <width>221</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Ouvrir une map personnalisée</string>
+       </property>
+      </widget>
+      <widget class="QListWidget" name="customLevelListWidget">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>40</y>
+         <width>271</width>
+         <height>171</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="cancelCustomLevelButton">
+       <property name="geometry">
+        <rect>
+         <x>210</x>
+         <y>230</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Annuler</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="playCustomLevelButton">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>230</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Jouer !</string>
+       </property>
+      </widget>
+     </widget>
     </widget>
    </widget>
    <widget class="QWidget" name="gameWidget" native="true">

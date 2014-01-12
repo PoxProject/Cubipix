@@ -439,6 +439,11 @@ QPushButton::pressed {
 	background-color: rgba(0, 0, 0, 0);
 }
 
+QLineEdit {
+	color: white;
+	border: 1px solid gray;
+}
+
 QPushButton {
 	border: 1px solid rgb(85, 85, 85);
 	border-radius: 10px;
@@ -604,9 +609,6 @@ QPushButton:pressed {
      <string notr="true">QWidget {
 	background-color: rgba(0, 0, 0, 100);
 }
-QWidget {
-	background-color: rgba(0, 0, 0, 100);
-}
 
 QPushButton {
 	border: 1px solid rgb(85, 85, 85);
@@ -667,9 +669,9 @@ QPushButton:pressed {
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>30</y>
+        <y>41</y>
         <width>261</width>
-        <height>192</height>
+        <height>181</height>
        </rect>
       </property>
       <property name="styleSheet">

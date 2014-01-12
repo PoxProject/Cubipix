@@ -33,6 +33,12 @@ private slots:
 
     void buttonLevelClicked();
 
+    void on_customLevelButton_clicked();
+
+    void on_playCustomLevelButton_clicked();
+
+    void on_cancelCustomLevelButton_clicked();
+
     void on_randomLevelButton_clicked();
 
     void startMap(QGraphicsScene *scene);

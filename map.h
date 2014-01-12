@@ -24,6 +24,7 @@ public:
     explicit Map(QObject *parent = 0);
 
     bool playLevel(int numberLevel);
+    bool playCustomLevel(QString levelName);
     void randomLevel();
     void multiplayerLevel();
 
