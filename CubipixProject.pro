@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     playertimer.cpp \
     mapeditor.cpp \
     cubipixsettings.cpp \
-    cubipixabout.cpp
+    cubipixabout.cpp \
+    weapon.cpp
 
 HEADERS  += cubipix.h \
     map.h \
@@ -27,7 +28,8 @@ HEADERS  += cubipix.h \
     playertimer.h \
     mapeditor.h \
     cubipixsettings.h \
-    cubipixabout.h
+    cubipixabout.h \
+    weapon.h
 
 FORMS    += cubipix.ui \
     mapeditor.ui \

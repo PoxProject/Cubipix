@@ -291,6 +291,11 @@ void Cubipix::keyPressEvent(QKeyEvent *event)
             //map->moveRight(playersClass->at(1));
         }
 
+        if(event->key() == Qt::Key_R)
+        {
+            map->startShotWeapon(playersClass->at(0));
+        }
+
         if(multiplayer == 1)
         {
             //qDebug() << "sendInformationsPlayer";
@@ -320,6 +325,11 @@ void Cubipix::keyReleaseEvent(QKeyEvent *event)
     if(event->key() == Qt::Key_Z)
     {
         map->jump(playersClass->at(0));
+    }
+
+    if(event->key() == Qt::Key_R)
+    {
+        map->stopShotWeapon(playersClass->at(0));
     }
 }
 

@@ -22,5 +22,7 @@
         <file>files/images/icons/open.png</file>
         <file>files/images/icons/save.png</file>
         <file>files/images/background.jpg</file>
+        <file>files/images/weapons/weapon1.png</file>
+        <file>files/images/weapons/bullets/bullet1.png</file>
     </qresource>
 </RCC>

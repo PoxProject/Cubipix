@@ -40,6 +40,9 @@ public:
 
     void jump(Player *player);
 
+    void startShotWeapon(Player *player);
+    void stopShotWeapon(Player *player);
+
     void movePlayerMultiplayer(Player *player, int row);
 
     void updateValueSizeMapView(int width, int height);
@@ -87,7 +90,10 @@ private:
 
     QList<QGraphicsProxyWidget *> *playersItemList;
     QList<QLabel *> *playersSkinList;
+    QList<QGraphicsProxyWidget *> *playersWeaponList;
     QList<PlayerTimer *> *playersTimerList;
+
+    QList<QGraphicsItem *> *bulletsList;
 
     QList<QList<int> > walls;
     QGraphicsScene *scene;
@@ -101,6 +107,10 @@ private:
 
     QTimer *timerJump;
 
+    QTimer *timerShotWeapon;
+
+    QTimer *timerBulletsList;
+
     QTimer *timerCollision;
 
     int numberActualize;
@@ -112,6 +122,10 @@ private slots:
     void moveRight();
 
     void drawJump();
+
+    void drawBullet();
+
+    void actualizePosBullet();
 
     void changeHealth();
 };

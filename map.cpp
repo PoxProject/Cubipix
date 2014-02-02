@@ -5,11 +5,14 @@ Map::Map(QObject *parent) :
 {
     pixelMap = 32;
     scene = new QGraphicsScene();
-    playersItemList = new QList<QGraphicsProxyWidget *>();
 
+    playersItemList = new QList<QGraphicsProxyWidget *>();
     playersSkinList = new QList<QLabel *>();
+    playersWeaponList = new QList<QGraphicsProxyWidget *>();
 
     playersTimerList = new QList<PlayerTimer *>();
+
+    bulletsList = new QList<QGraphicsItem *>();
 
     timerGravity = new QTimer();
 
@@ -17,6 +20,10 @@ Map::Map(QObject *parent) :
     timerMoveRight = new QTimer();
 
     timerJump = new QTimer();
+
+    timerShotWeapon = new QTimer();
+
+    timerBulletsList = new QTimer();
 
     timerCollision = new QTimer();
 
@@ -193,6 +200,10 @@ void Map::spawnPlayer(Player *player)
     QLabel *playerSkinLabel = new QLabel();
     playerSkinLabel->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
     playerSkinLabel->setPixmap(player->getSkin());
+
+    QLabel *playerWeaponLabel = new QLabel();
+    playerWeaponLabel->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
+    playerWeaponLabel->setPixmap(player->getImageWeapon());
     
     //qDebug() << "test";
     
@@ -200,6 +211,11 @@ void Map::spawnPlayer(Player *player)
     
     playerItem = scene->addWidget(playerSkinLabel);
     playerItem->setPos(spawnX, spawnY);
+
+    QGraphicsProxyWidget *playerWeapon;
+
+    playerWeapon = scene->addWidget(playerWeaponLabel);
+    playerWeapon->setPos(spawnX + 10, spawnY + 20);
     
     PlayerTimer *playerTimer = new PlayerTimer(player);
 
@@ -217,6 +233,7 @@ void Map::spawnPlayer(Player *player)
     
     playersItemList->append(playerItem);
     playersSkinList->append(playerSkinLabel);
+    playersWeaponList->append(playerWeapon);
     playersTimerList->append(playerTimer);
     
     player->updatePos(spawnX, spawnY);
@@ -233,6 +250,16 @@ void Map::startMoveLeft(Player *player)
     currentPlayer = player;
 
     playersSkinList->at(player->getRowPlayer() - 1)->setMovie(player->getSkinWalkLeft());
+
+    QTransform transform;
+    QPixmap pixmapRotated = player->getImageWeapon().transformed(transform.rotate(180, Qt::YAxis));
+
+    QLabel *playerWeaponLabel = new QLabel();
+    playerWeaponLabel->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
+    playerWeaponLabel->setPixmap(pixmapRotated);
+
+    playersWeaponList->at(player->getRowPlayer() - 1)->setWidget(playerWeaponLabel);
+    playersWeaponList->at(player->getRowPlayer() - 1)->setPos(player->getPosX() - 10, player->getPosY() + 20);
 
     player->getSkinWalkLeft()->start();
 
@@ -331,6 +358,7 @@ void Map::moveLeft()
         currentPlayer->updatePos(currentPlayer->getPosX() - 4, currentPlayer->getPosY());
 
         playersItemList->at(currentPlayer->getRowPlayer() - 1)->setPos(currentPlayer->getPosX(), currentPlayer->getPosY());
+        playersWeaponList->at(currentPlayer->getRowPlayer() - 1)->setPos(currentPlayer->getPosX() - 10, currentPlayer->getPosY() + 20);
     }
 
     changeValueScrollBar(true);
@@ -344,6 +372,13 @@ void Map::startMoveRight(Player *player)
     currentPlayer = player;
 
     playersSkinList->at(player->getRowPlayer() - 1)->setMovie(player->getSkinWalkRight());
+
+    QLabel *playerWeaponLabel = new QLabel();
+    playerWeaponLabel->setStyleSheet("background-color: rgba(255, 255, 255, 0);");
+    playerWeaponLabel->setPixmap(player->getImageWeapon());
+
+    playersWeaponList->at(player->getRowPlayer() - 1)->setWidget(playerWeaponLabel);
+    playersWeaponList->at(player->getRowPlayer() - 1)->setPos(player->getPosX() + 10, player->getPosY() + 20);
 
     player->getSkinWalkRight()->start();
 
@@ -384,6 +419,7 @@ void Map::moveRight()
         currentPlayer->updatePos(currentPlayer->getPosX() + 4, currentPlayer->getPosY());
 
         playersItemList->at(currentPlayer->getRowPlayer() - 1)->setPos(currentPlayer->getPosX(), currentPlayer->getPosY());
+        playersWeaponList->at(currentPlayer->getRowPlayer() - 1)->setPos(currentPlayer->getPosX() + 10, currentPlayer->getPosY() + 20);
     }
 
     changeValueScrollBar(false);
@@ -422,6 +458,7 @@ void Map::drawJump()
             currentPlayer->updatePos(currentPlayer->getPosX(), currentPlayer->getPosY() - 4);
 
             playersItemList->at(currentPlayer->getRowPlayer() - 1)->setPos(currentPlayer->getPosX(), currentPlayer->getPosY());
+            playersWeaponList->at(currentPlayer->getRowPlayer() - 1)->setPos(currentPlayer->getPosX() + 10, currentPlayer->getPosY() + 20);
         }
         else
         {
@@ -431,6 +468,67 @@ void Map::drawJump()
     else if(numberActualize > 1050)
     {
         setGravity(currentPlayer);
+    }
+}
+
+void Map::startShotWeapon(Player *player)
+{
+    qDebug() << "startShotWeapon";
+
+    currentPlayer = player;
+
+    if(!timerShotWeapon->isActive())
+    {
+        timerShotWeapon = new QTimer();
+
+        connect(timerShotWeapon, SIGNAL(timeout()), this, SLOT(drawBullet()));
+
+        timerShotWeapon->start(200);
+    }
+}
+
+void Map::stopShotWeapon(Player *player)
+{
+    qDebug() << "stopShotWeapon";
+
+    timerShotWeapon->stop();
+}
+
+void Map::drawBullet()
+{
+    qDebug() << "drawBullet";
+
+    QGraphicsItem *item;
+
+    item = scene->addPixmap(QPixmap(":/files/images/textures/bullet.png"));
+    item->setPos(currentPlayer->getPosX(), currentPlayer->getPosY());
+
+    bulletsList->append(item);
+
+    if(!timerBulletsList->isActive())
+    {
+        timerBulletsList = new QTimer();
+
+        connect(timerBulletsList, SIGNAL(timeout()), this, SLOT(actualizePosBullet()));
+
+        timerBulletsList->start(15);
+    }
+}
+
+void Map::actualizePosBullet()
+{
+    qDebug() << "actualizePosBullet";
+
+    if(bulletsList->count() > 0)
+    {
+        for(int i = 0; i < bulletsList->count(); i++)
+        {
+            bulletsList->at(i)->setPos(bulletsList->at(i)->pos().x() + 5, bulletsList->at(i)->pos().y());
+        }
+    }
+    else
+    {
+        timerBulletsList->stop();
     }
 }
 
@@ -742,6 +840,7 @@ void Map::changeHealth()
     {
         timerCollision->stop();
 
+        emit(updateHealth(currentPlayer));
         emit(finishPart(currentPlayer));
 
         return;

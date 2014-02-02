@@ -1,6 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include <weapon.h>
 #include <QObject>
 #include <QString>
 #include <QStringList>
@@ -19,6 +20,9 @@ public:
     QPixmap getSkin();
     QMovie *getSkinWalkLeft();
     QMovie *getSkinWalkRight();
+    int getForceWeapon();
+    QPixmap getImageWeapon();
+    QPixmap getImageBullet();
     int getHealth();
     double getPosX();
     double getPosY();
@@ -33,6 +37,7 @@ private:
     QPixmap skin;
     QMovie *skinWalkLeft;
     QMovie *skinWalkRight;
+    QList<QString> propertiesWeapon;
     int health;
     int posX;
     int posY;

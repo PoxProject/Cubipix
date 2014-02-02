@@ -8,6 +8,10 @@ Player::Player(int userIdN, int rowPlayerN, QString usernameN, int numberImage, 
     skin = QPixmap(":/files/images/skins/skin" + QString::number(numberImage) + ".png");
     skinWalkLeft = new QMovie(":/files/images/skins/skin" + QString::number(numberImage) + "-walkLeft.gif");
     skinWalkRight = new QMovie(":/files/images/skins/skin" + QString::number(numberImage) + "-walkRight.gif");
+
+    Weapon *weapon = new Weapon();
+    propertiesWeapon = weapon->getWeapon();
+
     health = 10;
     posX = posXN;
     posY = posYN;
@@ -41,6 +45,21 @@ QMovie *Player::getSkinWalkLeft()
 QMovie *Player::getSkinWalkRight()
 {
     return skinWalkRight;
+}
+
+int Player::getForceWeapon()
+{
+    return propertiesWeapon.value(0).toInt();
+}
+
+QPixmap Player::getImageWeapon()
+{
+    return QPixmap(propertiesWeapon.value(1));
+}
+
+QPixmap Player::getImageBullet()
+{
+    return QPixmap(propertiesWeapon.value(2));
 }
 
 int Player::getHealth()
