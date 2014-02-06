@@ -7,6 +7,13 @@ Cubipix::Cubipix(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    setMinimumSize(900, 500);
+
+    QDesktopWidget desk;
+    QRect rectDesk = desk.screenGeometry();
+
+    setGeometry((rectDesk.width() / 2) - 400, (rectDesk.height() / 2) - 250, 800, 500);
+
     ui->homeWidget->setGeometry(0, 0, this->width(), this->height());
     ui->customLevelWidget->setGeometry(0, 0, this->width(), this->height());
     ui->levelsWidget->setGeometry(0, 0, this->width(), this->height());
@@ -15,9 +22,13 @@ Cubipix::Cubipix(QWidget *parent) :
     ui->multiplayerPartsWidget->setGeometry(0, 0, this->width(), this->height());
     ui->exitGameWidget->setGeometry(0, 0, this->width(), this->height());
     ui->finishPartWidget->setGeometry(0, 0, this->width(), this->height());
+    ui->loadingPartMultiplayerWidget->setGeometry(0, 0, this->width(), this->height());
+    ui->listButtonLevelsScrollArea->setGeometry(0, 0, this->width(), this->height());
 
     ui->titleGameLabel->move((this->width() / 2) - ui->titleGameLabel->width(), (this->width() / 2) - 550);
     ui->homeButtonsWidget->move((this->width() / 2) - ui->homeButtonsWidget->width(), (this->width() / 2) - 400);
+
+    ui->infoLoadingPartMultiplayerGroupBox->move((this->width() / 2) - ui->infoLoadingPartMultiplayerGroupBox->width(), (this->width() / 2) - 400);
 
     ui->customLevelWidget->hide();
     ui->levelsWidget->hide();
@@ -26,6 +37,7 @@ Cubipix::Cubipix(QWidget *parent) :
     ui->multiplayerPartsWidget->hide();
     ui->exitGameWidget->hide();
     ui->finishPartWidget->hide();
+    ui->loadingPartMultiplayerWidget->hide();
 
     ui->playersListMultiplayerWidget->hide();
 
@@ -43,8 +55,16 @@ Cubipix::Cubipix(QWidget *parent) :
 
     playersClass = new QVector<Player *>();
 
-    multiplayer = 0;
-    exit = 0;
+    isPlaying = false;
+    isMultiplaying = false;
+
+    isExit = false;
+
+    QMovie *loadingGifMovie = new QMovie(":/files/images/load.gif");
+
+    ui->loadGifPartMultiplayerLabel->setMovie(loadingGifMovie);
+
+    loadingGifMovie->start();
 }
 
 Cubipix::~Cubipix()
@@ -193,7 +213,7 @@ void Cubipix::buttonLevelClicked()
 
     playersClass->append(player);
 
-    map = new Map();
+    map = new Map(false);
 
     connect(map, SIGNAL(startMap(QGraphicsScene*)), this, SLOT(startMap(QGraphicsScene*)));
     connect(map, SIGNAL(updateMap(QGraphicsScene*)), this, SLOT(updateMap(QGraphicsScene*)));
@@ -217,6 +237,8 @@ void Cubipix::buttonLevelClicked()
         ui->homeWidget->hide();
         ui->levelsWidget->hide();
         ui->gameWidget->show();
+
+        isPlaying = true;
     }
     else
     {
@@ -237,9 +259,13 @@ void Cubipix::resizeEvent(QResizeEvent *event)
     ui->multiplayerPartsWidget->setGeometry(0, 0, this->width(), this->height());
     ui->exitGameWidget->setGeometry(0, 0, this->width(), this->height());
     ui->finishPartWidget->setGeometry(0, 0, this->width(), this->height());
+    ui->loadingPartMultiplayerWidget->setGeometry(0, 0, this->width(), this->height());
+    ui->listButtonLevelsScrollArea->setGeometry(0, 0, this->width(), this->height());
 
     ui->titleGameLabel->move((this->width() / 2) - ui->titleGameLabel->width(), (this->height() / 2) - 220);
     ui->homeButtonsWidget->move((this->width() / 2) - (ui->homeButtonsWidget->width() - 38), (this->height() / 2) - 100);
+
+    ui->infoLoadingPartMultiplayerGroupBox->move((this->width() / 2) - ui->infoLoadingPartMultiplayerGroupBox->width(), (this->height() / 2) - 400);
 
     //exitGameWidget
     ui->backGameButton->move(((this->width() / 2) - 111), (this->height() / 2) - 140);
@@ -259,77 +285,73 @@ void Cubipix::resizeEvent(QResizeEvent *event)
 
 void Cubipix::keyPressEvent(QKeyEvent *event)
 {
-    if(exit == 0)
+    if(isPlaying)
     {
-        if(event->key() == Qt::Key_Q)
+        if(!isExit)
         {
-            //qDebug() << "gauche";
+            if(event->key() == Qt::Key_Q)
+            {
+                map->startMoveLeft(playersClass->at(0));
+            }
 
-            map->startMoveLeft(playersClass->at(0));
+            if(event->key() == Qt::Key_D)
+            {
+                map->startMoveRight(playersClass->at(0));
+            }
+
+            if(event->key() == Qt::Key_Z)
+            {
+                map->jump(playersClass->at(0));
+            }
+
+            if(event->key() == Qt::Key_R)
+            {
+                map->startShotWeapon(playersClass->at(0));
+            }
+
+            /*
+            if(multiplayer == 1)
+            {
+                //qDebug() << "sendInformationsPlayer";
+
+                sendDataServer(playersClass->at(0)->getHealth(), playersClass->at(0)->getPosX(), playersClass->at(0)->getPosY());
+            }
+            */
         }
 
-        if(event->key() == Qt::Key_D)
+        if(event->key() == Qt::Key_Escape)
         {
-            //qDebug() << "droite" ;
-
-            //map->moveRight(playersClass->at(0));
-
-            map->startMoveRight(playersClass->at(0));
+            exitGameWindow();
         }
-
-        if(event->key() == Qt::Key_Z)
-        {
-            //qDebug() << "sauter";
-
-            map->jump(playersClass->at(0));
-        }
-
-        if(event->key() == Qt::Key_U)
-        {
-            //qDebug() << "player2";
-
-            //map->moveRight(playersClass->at(1));
-        }
-
-        if(event->key() == Qt::Key_R)
-        {
-            map->startShotWeapon(playersClass->at(0));
-        }
-
-        if(multiplayer == 1)
-        {
-            //qDebug() << "sendInformationsPlayer";
-
-            sendDataServer(playersClass->at(0)->getHealth(), playersClass->at(0)->getPosX(), playersClass->at(0)->getPosY());
-        }
-    }
-
-    if(event->key() == Qt::Key_Escape)
-    {
-        exitGameWindow();
     }
 }
 
 void Cubipix::keyReleaseEvent(QKeyEvent *event)
 {
-    if(event->key() == Qt::Key_Q)
+    if(isPlaying)
     {
-        map->stopMoveLeft(playersClass->at(0));
-    }
+        if(!isExit)
+        {
+            if(event->key() == Qt::Key_Q)
+            {
+                map->stopMoveLeft(playersClass->at(0));
+            }
 
-    if(event->key() == Qt::Key_D)
-    {
-        map->stopMoveRight(playersClass->at(0));
-    }
+            if(event->key() == Qt::Key_D)
+            {
+                map->stopMoveRight(playersClass->at(0));
+            }
 
-    if(event->key() == Qt::Key_Z)
-    {
-        map->jump(playersClass->at(0));
-    }
+            if(event->key() == Qt::Key_Z)
+            {
+                map->jump(playersClass->at(0));
+            }
 
-    if(event->key() == Qt::Key_R)
-    {
-        map->stopShotWeapon(playersClass->at(0));
+            if(event->key() == Qt::Key_R)
+            {
+                map->stopShotWeapon(playersClass->at(0));
+            }
+        }
     }
 }
 
@@ -367,7 +389,7 @@ void Cubipix::finishPart(Player *player)
 {
     logC("finishPart");
 
-    exit = 1;
+    isExit = true;
 
     if(player->getHealth() > 0)
     {
@@ -417,7 +439,7 @@ void Cubipix::on_startLocalPartMultiplayerButton_clicked()
         playersClass->append(player1);
         playersClass->append(player2);
 
-        map = new Map();
+        map = new Map(false);
 
         connect(map, SIGNAL(startMap(QGraphicsScene*)), this, SLOT(startMap(QGraphicsScene*)));
         connect(map, SIGNAL(updateMap(QGraphicsScene*)), this, SLOT(updateMap(QGraphicsScene*)));
@@ -447,6 +469,8 @@ void Cubipix::on_startLocalPartMultiplayerButton_clicked()
             ui->homeWidget->hide();
             ui->levelsWidget->hide();
             ui->gameWidget->show();
+
+            isPlaying = true;
         }
         else
         {
@@ -465,6 +489,9 @@ void Cubipix::on_loginButton_clicked()
 
     if(ui->usernameLineEdit->text() != "" && ui->passwordLineEdit->text() != "")
     {
+        ui->textLoadingPartMultiplayerLabel->setText("Connexion en cours ...");
+        ui->loadingPartMultiplayerWidget->show();
+
         QByteArray password;
         password.append(ui->passwordLineEdit->text());
 
@@ -494,7 +521,9 @@ void Cubipix::replyLogin(QNetworkReply *reply)
     qDebug() << answer;
 
     if(answer != "false")
-    {        
+    {
+        ui->textLoadingPartMultiplayerLabel->setText("Chargement de votre session ...");
+
         QStringList infoUser = answer.split(";;");
 
         userId = infoUser.value(0).toInt();
@@ -521,6 +550,8 @@ void Cubipix::replyLogin(QNetworkReply *reply)
     }
     else
     {
+        ui->loadingPartMultiplayerWidget->hide();
+
         QMessageBox::critical(this, "Erreur", "Votre pseudo ou mot de passe est incorrect.");
     }
 }
@@ -592,10 +623,14 @@ void Cubipix::replyListParts(QNetworkReply *reply)
     }
 
     ui->partsMultiplayerTable->setModel(model);
+    ui->loadingPartMultiplayerWidget->hide();
 }
 
 void Cubipix::on_partsMultiplayerTable_doubleClicked(const QModelIndex &index)
 {
+    ui->textLoadingPartMultiplayerLabel->setText("Connexion en cours ...");
+    ui->loadingPartMultiplayerWidget->show();
+
     int id = ui->partsMultiplayerTable->model()->data(ui->partsMultiplayerTable->model()->index(index.row(), 0)).toInt();
     int level = ui->partsMultiplayerTable->model()->data(ui->partsMultiplayerTable->model()->index(index.row(), 0)).toInt();
 
@@ -635,10 +670,14 @@ void Cubipix::serverConnected()
 
     ui->statutRemoteServerLabel->setText("Chargement en cours ...");
 
-    multiplayer = 1;
+    isPlaying = true;
+    isMultiplaying = true;
+
     rowPlayer = 2;
 
     playersClass->clear();
+
+    ui->textLoadingPartMultiplayerLabel->setText("Chargement de la map ...");
 
     ui->statutRemoteServerLabel->setText("Connecté au serveur.");
 
@@ -646,12 +685,13 @@ void Cubipix::serverConnected()
 
     playersClass->append(player);
 
-    map = new Map();
+    map = new Map(true);
 
     connect(map, SIGNAL(startMap(QGraphicsScene*)), this, SLOT(startMap(QGraphicsScene*)));
     connect(map, SIGNAL(updateMap(QGraphicsScene*)), this, SLOT(updateMap(QGraphicsScene*)));
     connect(map, SIGNAL(updateView(int,int)), this, SLOT(updateView(int,int)));
     connect(map, SIGNAL(updateHealth(Player*)), this, SLOT(updateHealth(Player*)));
+    connect(map, SIGNAL(multiplayerPos(int,int,int)), this, SLOT(sendDataServer(int,int,int)));
     connect(map, SIGNAL(finishPart(Player*)), this, SLOT(finishPart(Player*)));
 
     map->updateValueSizeMapView(this->width(), this->height());
@@ -672,9 +712,15 @@ void Cubipix::serverConnected()
         ui->homeWidget->hide();
         ui->levelsWidget->hide();
         ui->gameWidget->show();
+
+        isPlaying = true;
+
+        ui->loadingPartMultiplayerWidget->hide();
     }
     else
     {
+        ui->loadingPartMultiplayerWidget->hide();
+
         ui->statutRemoteServerLabel->setText("Erreur : Impossible de générer la map.");
 
         QMessageBox::critical(this, "Erreur", "Une erreur s'est produite lors de la génération de la map. Réessayez ou contactez un administrateur");
@@ -686,6 +732,8 @@ void Cubipix::serverDisconnected()
     logC("Disconnected");
 
     ui->statutRemoteServerLabel->setText("Déconnecté  du serveur.");
+
+    QMessageBox::critical(this, "Erreur", "Vous avez été déconnecté du serveur.");
 }
 
 void Cubipix::receiveDataServer()
@@ -776,6 +824,14 @@ void Cubipix::receiveDataServer()
             setListPlayers();
         }
 
+        if(numberPlayers < playersClass->count())
+        {
+            for(int i = 0; i < playersClass->count(); i++)
+            {
+
+            }
+        }
+
         qDebug() << "map" << listPlayers;
     }
     else
@@ -792,38 +848,53 @@ void Cubipix::receiveDataServer()
 
 void Cubipix::sendDataServer(int health, int posX, int posY)
 {
+    qDebug() << "sendDataServer";
+
     logC("sendDataServer");
 
-    QByteArray paquet;
-    QDataStream out(&paquet, QIODevice::WriteOnly);
+    if(isMultiplaying)
+    {
+        QByteArray paquet;
+        QDataStream out(&paquet, QIODevice::WriteOnly);
 
-    QString messageToSend = QString::number(partId) + ";;" + QString::number(userId) + ";;" + username + ";;" + QString::number(health) + ";;" + QString::number(posX) + ";;" + QString::number(posY);
+        QString messageToSend = QString::number(partId) + ";;" + QString::number(userId) + ";;" + username + ";;" + QString::number(health) + ";;" + QString::number(posX) + ";;" + QString::number(posY);
 
-    out << (quint16) 0;
-    out << messageToSend;
-    out.device()->seek(0);
-    out << (quint16) (paquet.size() - sizeof(quint16));
+        out << (quint16) 0;
+        out << messageToSend;
+        out.device()->seek(0);
+        out << (quint16) (paquet.size() - sizeof(quint16));
 
-    socket->write(paquet);
+        socket->write(paquet);
+    }
 }
 
 void Cubipix::serverError(QAbstractSocket::SocketError error)
 {
     logC("serverError");
 
+    ui->loadingPartMultiplayerWidget->hide();
+
     switch(error)
     {
         case QAbstractSocket::HostNotFoundError:
             ui->statutRemoteServerLabel->setText("Erreur : Host introuvable.");
+
+            QMessageBox::critical(this, "Erreur", "Nous n'arrivons pas à trouver le serveur.");
             break;
         case QAbstractSocket::ConnectionRefusedError:
             ui->statutRemoteServerLabel->setText("Erreur : Connection refusée.");
+
+            QMessageBox::critical(this, "Erreur", "La connexion a été refusée.");
             break;
         case QAbstractSocket::RemoteHostClosedError:
             ui->statutRemoteServerLabel->setText("Erreur : Connection coupée.");
+
+            QMessageBox::critical(this, "Erreur", "La connexion a été coupée.");
             break;
         default:
             ui->statutRemoteServerLabel->setText("Erreur : " + socket->errorString() + ".");
+
+            QMessageBox::critical(this, "Erreur", "Une erreur est survenue : " + socket->errorString());
     }
 }
 
@@ -849,16 +920,16 @@ void Cubipix::exitGameWindow()
 {
     logC("exitGameWindow");
 
-    if(exit == 1)
+    if(isExit)
     {
-        exit = 0;
+        isExit = false;
 
         ui->exitGameWidget->hide();
         ui->mapView->setEnabled(true);
     }
     else
     {
-        exit = 1;
+        isExit = true;
 
         ui->mapView->setEnabled(false);
         ui->exitGameWidget->show();
@@ -879,23 +950,50 @@ void Cubipix::on_exitGameButton_clicked()
 {
     logC("exitGameButton");
 
-    playersClass->clear();
+    if(isMultiplaying)
+    {
+        socket->abort();
 
-    exitGameWindow();
+        playersClass->clear();
 
-    ui->mentionResultLabel->clear();
+        exitGameWindow();
 
-    ui->pixmapPlayerResultLabel->clear();
+        ui->mentionResultLabel->clear();
 
-    ui->usernamePlayerResultLabel->clear();
-    ui->healthPlayerResultProgressBar->setValue(10);
+        ui->pixmapPlayerResultLabel->clear();
 
-    ui->gameWidget->hide();
-    ui->levelsWidget->hide();
-    ui->finishPartWidget->hide();
-    ui->multiplayerModeWidget->hide();
-    ui->multiplayerPartsWidget->hide();
-    ui->homeWidget->show();
+        ui->usernamePlayerResultLabel->clear();
+        ui->healthPlayerResultProgressBar->setValue(10);
+
+        ui->gameWidget->hide();
+        ui->levelsWidget->hide();
+        ui->finishPartWidget->hide();
+        ui->multiplayerModeWidget->hide();
+        ui->homeWidget->hide();
+        ui->multiplayerPartsWidget->show();
+    }
+    else
+    {
+        playersClass->clear();
+
+        exitGameWindow();
+
+        ui->mentionResultLabel->clear();
+
+        ui->pixmapPlayerResultLabel->clear();
+
+        ui->usernamePlayerResultLabel->clear();
+        ui->healthPlayerResultProgressBar->setValue(10);
+
+        ui->gameWidget->hide();
+        ui->levelsWidget->hide();
+        ui->finishPartWidget->hide();
+        ui->multiplayerModeWidget->hide();
+        ui->multiplayerPartsWidget->hide();
+        ui->homeWidget->show();
+    }
+
+    isPlaying = false;
 }
 
 void Cubipix::logC(QString text)

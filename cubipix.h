@@ -2,6 +2,7 @@
 #define CUBIPIX_H
 
 #include "map.h"
+#include "mapeditor.h"
 #include "cubipixsettings.h"
 #include "cubipixabout.h"
 #include <QMainWindow>
@@ -12,7 +13,7 @@
 #include <QStandardItemModel>
 #include <QMap>
 #include <QScrollBar>
-#include "mapeditor.h"
+#include <QDesktopWidget>
 
 namespace Ui {
 class Cubipix;
@@ -107,7 +108,10 @@ private:
 
     QNetworkAccessManager *manager;
 
-    int multiplayer;
+    bool isPlaying;
+    bool isMultiplaying;
+
+    bool isExit;
 
     int userId;
     QString username;

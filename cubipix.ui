@@ -19,25 +19,25 @@
 }
 
 QPushButton {
-	border: 1px solid rgb(85, 85, 85);
-	border-radius: 10px;
-	background-color: rgb(161, 210, 255);
+	border: 1px solid gray;
+	border-radius: 2px;
+	background-color: rgb(255, 255, 255);
 }
 
 QPushButton:hover {
-	background-color: rgb(130, 174, 255);
+	background-color: rgb(231, 231, 231);
 }
 
 QPushButton:pressed {
-	background-color: rgb(85, 125, 255);
+	background-color: rgb(200, 200, 200);
 }</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QWidget" name="homeWidget" native="true">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>540</y>
+      <x>240</x>
+      <y>600</y>
       <width>941</width>
       <height>491</height>
      </rect>
@@ -90,17 +90,17 @@ QLabel {
 }
 
 QPushButton {
-	border: 1px solid rgb(85, 85, 85);
-	border-radius: 10px;
-	background-color: rgb(161, 210, 255);
+	border: 1px solid gray;
+	border-radius: 2px;
+	background-color: rgb(255, 255, 255);
 }
 
 QPushButton:hover {
-	background-color: rgb(130, 174, 255);
+	background-color: rgb(231, 231, 231);
 }
 
 QPushButton:pressed {
-	background-color: rgb(85, 125, 255);
+	background-color: rgb(200, 200, 200);
 }</string>
      </property>
      <widget class="QPushButton" name="playLevelButton">
@@ -1075,8 +1075,8 @@ QPushButton:pressed {
    <widget class="QWidget" name="multiplayerPartsWidget" native="true">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>10</y>
+      <x>110</x>
+      <y>300</y>
       <width>941</width>
       <height>491</height>
      </rect>
@@ -1164,6 +1164,100 @@ QPushButton:pressed {
      <property name="text">
       <string>Bienvenue, username !</string>
      </property>
+    </widget>
+    <widget class="QWidget" name="loadingPartMultiplayerWidget" native="true">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>20</y>
+       <width>481</width>
+       <height>271</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QWidget {
+	background-color: rgba(255, 255, 255, 200);
+}</string>
+     </property>
+     <widget class="QGroupBox" name="infoLoadingPartMultiplayerGroupBox">
+      <property name="geometry">
+       <rect>
+        <x>140</x>
+        <y>120</y>
+        <width>171</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QGroupBox {
+	border: 1px solid gray;
+	border-radius: 2px;
+ }
+ 
+ QGroupBox::title {
+	subcontrol-origin: margin;
+	subcontrol-position: top center;
+	padding: 0 3px;
+ }
+
+QLabel {
+	background-color: rgba(0, 0, 0, 0);
+}
+
+QProgressBar {
+     border: 1px solid grey;
+     border-radius: 2px;
+ }
+
+ QProgressBar::chunk {
+     background-color: rgb(185, 35, 63);
+     width: 20px;
+ }
+
+QPushButton {
+	border: 1px solid rgb(85, 85, 85);
+	border-radius: 10px;
+	background-color: rgb(161, 210, 255);
+}
+
+QPushButton:hover {
+	background-color: rgb(130, 174, 255);
+}
+
+QPushButton:pressed {
+	background-color: rgb(85, 125, 255);
+}</string>
+      </property>
+      <property name="title">
+       <string/>
+      </property>
+      <widget class="QLabel" name="loadGifPartMultiplayerLabel">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>10</y>
+         <width>46</width>
+         <height>13</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Loading</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="textLoadingPartMultiplayerLabel">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>40</y>
+         <width>131</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Chargement en cours ...</string>
+       </property>
+      </widget>
+     </widget>
     </widget>
    </widget>
    <widget class="QTextBrowser" name="logCubipix">

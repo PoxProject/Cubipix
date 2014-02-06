@@ -21,7 +21,7 @@ class Map : public QObject
 {
     Q_OBJECT
 public:
-    explicit Map(QObject *parent = 0);
+    explicit Map(bool mode = 0, QObject *parent = 0);
 
     bool playLevel(int numberLevel);
     bool playCustomLevel(QString levelName);
@@ -54,6 +54,8 @@ signals:
     void updateView(int scrollValueWidthN, int scrollValueHeightN);
 
     void updateHealth(Player *player);
+
+    void multiplayerPos(int health, int posX, int posY);
 
     void finishPart(Player *player);
 
@@ -114,6 +116,8 @@ private:
     QTimer *timerCollision;
 
     int numberActualize;
+
+    bool isMultiplaying;
 
 private slots:
     void fall();

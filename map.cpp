@@ -1,6 +1,6 @@
 #include "map.h"
 
-Map::Map(QObject *parent) :
+Map::Map(bool mode, QObject *parent) :
     QObject(parent)
 {
     pixelMap = 32;
@@ -29,6 +29,15 @@ Map::Map(QObject *parent) :
 
     scrollValueWidth = 0;
     scrollValueHeight = 0;
+
+    if(mode)
+    {
+        isMultiplaying = true;
+    }
+    else
+    {
+        isMultiplaying = false;
+    }
 }
 
 bool Map::playLevel(int numberLevel)
@@ -359,6 +368,11 @@ void Map::moveLeft()
 
         playersItemList->at(currentPlayer->getRowPlayer() - 1)->setPos(currentPlayer->getPosX(), currentPlayer->getPosY());
         playersWeaponList->at(currentPlayer->getRowPlayer() - 1)->setPos(currentPlayer->getPosX() - 10, currentPlayer->getPosY() + 20);
+
+        if(isMultiplaying)
+        {
+            emit(multiplayerPos(currentPlayer->getHealth(), currentPlayer->getPosX(), currentPlayer->getPosY()));
+        }
     }
 
     changeValueScrollBar(true);
@@ -420,6 +434,11 @@ void Map::moveRight()
 
         playersItemList->at(currentPlayer->getRowPlayer() - 1)->setPos(currentPlayer->getPosX(), currentPlayer->getPosY());
         playersWeaponList->at(currentPlayer->getRowPlayer() - 1)->setPos(currentPlayer->getPosX() + 10, currentPlayer->getPosY() + 20);
+
+        if(isMultiplaying)
+        {
+            emit(multiplayerPos(currentPlayer->getHealth(), currentPlayer->getPosX(), currentPlayer->getPosY()));
+        }
     }
 
     changeValueScrollBar(false);
@@ -459,6 +478,11 @@ void Map::drawJump()
 
             playersItemList->at(currentPlayer->getRowPlayer() - 1)->setPos(currentPlayer->getPosX(), currentPlayer->getPosY());
             playersWeaponList->at(currentPlayer->getRowPlayer() - 1)->setPos(currentPlayer->getPosX() + 10, currentPlayer->getPosY() + 20);
+
+            if(isMultiplaying)
+            {
+                emit(multiplayerPos(currentPlayer->getHealth(), currentPlayer->getPosX(), currentPlayer->getPosY()));
+            }
         }
         else
         {
@@ -535,6 +559,7 @@ void Map::actualizePosBullet()
 void Map::movePlayerMultiplayer(Player *player, int row)
 {
     playersItemList->at(row)->setPos(player->getPosX(), player->getPosY());
+    playersWeaponList->at(row)->setPos(player->getPosX() + 10, player->getPosY() + 20);
 }
 
 bool Map::isWallLeft(Player *player)
@@ -723,6 +748,12 @@ void Map::fall()
         currentPlayer->updatePos(currentPlayer->getPosX(), currentPlayer->getPosY() + 4);
 
         playersItemList->at(currentPlayer->getRowPlayer() - 1)->setPos(currentPlayer->getPosX(), currentPlayer->getPosY());
+        playersWeaponList->at(currentPlayer->getRowPlayer() - 1)->setPos(currentPlayer->getPosX() + 10, currentPlayer->getPosY() + 20);
+
+        if(isMultiplaying)
+        {
+            emit(multiplayerPos(currentPlayer->getHealth(), currentPlayer->getPosX(), currentPlayer->getPosY()));
+        }
     }
     else
     {
